@@ -78,8 +78,6 @@ Everything about this workflow is local and designed to keep you up to date. So 
 
 ```console
 $ lostma build heurist
-Get DB Structure ⠙ 0:00:01
-Get Records ━━━━━━━━━━━━━━━━━━━━ 25/25 0:00:11
 ```
 
 If you don't want to set up a `.env` file, you can still download the Heurist data by passing your username and password as options.
@@ -94,8 +92,6 @@ Because LostMa's data is so networked, a graph is the most intuitive way to stru
 
 ```console
 $ lostma build graph
-Connecting to Heurist download... ⠋
-Rebuilding Kùzu database ⠏
 ```
 
 The graph database's files will be located in the directory indicated in the [`config.yml`](./config.yml) file, specifically the key `graph database`.
@@ -153,19 +149,9 @@ Install an editable version of this application with the development dependencie
 
 ```console
 $ pip install -e .["dev"]
-Obtaining file:///home/user/Dev/pivot-format
-  Installing build dependencies ... done
-  Checking if build backend supports build_editable ... done
-  Getting requirements to build editable ... done
-  Installing backend dependencies ... done
-  Preparing editable metadata (pyproject.toml) ... done
 ```
 
 Practice Test-Driven Development and run tests with `pytest`.
-
-When a data model is needed for a test, privilege creating a stable version of the data model, storing it in the [`tests/mock_data/`](./tests/mock_data/) directory, and making it importable in the [`__init__.py`](./tests/mock_data/__init__.py) file.
-
-A model for how to create mock data (i.e. a Text), can be found in the [`make_mock_data.py`](./tests/mock_data/make_mock_data.py) module.
 
 ## License
 
