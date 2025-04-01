@@ -17,22 +17,22 @@ From the relational entities in LostMa's Heurist database, this package (1) tran
 
 ## Installation
 
-This project is packaged with a `pyproject.toml` file. Install it with `pip install`.
+1. Download this project's code. `git clone https://github.com/LostMa-ERC/pivot-format.git`
+
+2. Create and activate a virtual Python environment. (version 3.12)
+
+3. Install this project as a package.
 
 ```console
 $ pip install .
-Obtaining file:///home/user/Dev/pivot-format
-  Installing build dependencies ... done
-  Checking if build backend supports build_editable ... done
-  Getting requirements to build editable ... done
-  Installing backend dependencies ... done
 ```
 
 ## Usage
 
-1. [Configure project](#configure-project)
-2. [Download new Heurist data](#download-heurist-data)
-3. [Pivot data to TEI](#pivot-data-to-tei)
+1. [Configure the project](#configure-project)
+2. [Update downloaded Heurist data](#1-download-heurist-data)
+3. [Transform into graph database](#2-transform-into-graph)
+3. [Pivot data to TEI](#3b-pivot-data-to-tei)
 
 Short cut (for when you've already configured the project):
 
