@@ -8,10 +8,10 @@ From the relational entities in LostMa's Heurist database, this package (1) tran
 - [Installation](#installation)
 - [Usage](#usage)
   - [Configure project metadata](#configure-project)
-  - [1. Download new Heurist data](#download-heurist-data)
-  - [2. Transform data into a graph](#transform-into-graph)
-  - [3a. Explore the network](#explore-network)
-  - [3b. Pivot data to TEI](#pivot-data-to-tei)
+  - [1. Download new Heurist data](#1-download-heurist-data)
+  - [2. Transform data into a graph](#2-transform-into-graph)
+  - [3a. Explore the network](#3a-explore-network)
+  - [3b. Pivot data to TEI](#3b-pivot-data-to-tei)
 - [Development](#development)
 - [License](#license)
 
@@ -66,7 +66,7 @@ file paths:
   output directory: texts
 ```
 
-### Download Heurist data
+### 1. Download Heurist data
 
 Run the `lostma heurist` command of this package, which automatically reads all the necessary parameters from this project's config file and the `.env` file you set up.
 
@@ -85,9 +85,9 @@ lostma heurist \
 --password "password"
 ```
 
-### Transform into graph
+### 2. Transform into graph
 
-Because LostMa's data is so networked, a graph is the most intuitive way to structure it for analysis. In preparation for any future work (pivot to TEI documents, explore the network), use the command `lostma build graph` transform and save the data in an embedded, in-process Kùzu graph database.
+Because LostMa's data is so networked, a graph is the most intuitive way to structure it for analysis. In preparation for any future work (pivot to TEI documents, explore the network), use the command `lostma build graph` to transform and save the downloaded Heurist data in an embedded, in-process Kùzu graph database.
 
 ```console
 $ lostma build graph
@@ -95,7 +95,17 @@ Connecting to Heurist download... ⠋
 Rebuilding Kùzu database ⠏
 ```
 
-### Explore network
+The graph database's files will be located in the directory indicated in the [`config.yml`](./config.yml) file, specifically the key `graph database`.
+
+```yaml
+file paths:
+  heurist database: heurist.db
+  graph database: kuzu_db
+  output directory: output
+  text TEI model: tei_base_text.xml
+```
+
+### 3a. Explore network
 
 The `lostma graph build` command transforms the downloaded Heurist data into an embedded Kùzu graph database.
 
@@ -126,7 +136,7 @@ Refresh the page that opened ([http://localhost:8000/](http://localhost:8000)) a
 > Note: I'm aware that Kùzu Explorer currently does not support dates from the Middle Ages. You'll notice this if you look at the property `creation_date` on a Text object, for example. I've opened an [issue](https://github.com/kuzudb/explorer/issues/262) about this on their GitHub. Hopefully it will be resovled in due time, and we can take full advantage of Kùzu Explorer for our LostMa data.
 
 
-### Pivot data to TEI
+### 3b. Pivot data to TEI
 
 Run the `lostma pivot texts` command of this package to select all the texts loaded into the DuckDB database and transform them into TEI-XML documents. The documents will be written in the `output directory` folder you specified in the [`config.yml`](./config.yml) file.
 

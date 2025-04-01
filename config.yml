@@ -18,6 +18,6 @@ contributors:
       - Théo Moins
 file paths:
   heurist database: heurist.db
-  graph database: kuzu
+  graph database: kuzu_db
   output directory: output
   text TEI model: tei_base_text.xml
