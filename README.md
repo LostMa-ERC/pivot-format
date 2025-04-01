@@ -101,8 +101,6 @@ The graph database's files will be located in the directory indicated in the [`c
 file paths:
   heurist database: heurist.db
   graph database: kuzu_db
-  output directory: output
-  text TEI model: tei_base_text.xml
 ```
 
 ### 3a. Explore network
