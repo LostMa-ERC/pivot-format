@@ -58,12 +58,17 @@ DB_LOGIN="user.name"
 DB_PASSWORD=password
 ```
 
-In the [`config.yml`](./config.yml) file for this project, confirm the path to the DuckDB database file that will be generated when the Heurist data is downloaded from the remote server.
+In the [`config.yml`](./config.yml) file for this project, update / confirm metadata about this project's contributors.
 
 ```yaml
-file paths:
-  database: heurist.db
-  output directory: texts
+contributors:
+  data entry:
+    ISO_LANGUAGE_CODE:
+      - FULL NAME
+    gmh:
+      - Mike Kestemont
+    default:
+      - Jean-Baptiste Camps
 ```
 
 ### 1. Download Heurist data
