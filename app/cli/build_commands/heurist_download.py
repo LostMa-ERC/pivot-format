@@ -7,17 +7,21 @@ from app import HEURIST_DB
 from heurist.api.client import HeuristAPIClient
 from heurist.workflows.etl import extract_transform_load
 
+HEURIST_DATABASE_NAME = "jbcamps_gestes"
+
 
 def get_vars(*args) -> dict:
     load_dotenv(find_dotenv())
-    db, login, password = args[0], args[1], args[2]
-    if not db:
-        db = os.getenv("DB_NAME")
+    login, password = args[0], args[1]
     if not login:
         login = os.getenv("DB_LOGIN")
     if not password:
         password = os.getenv("DB_PASSWORD")
-    return {"database_name": db, "login": login, "password": password}
+    return {
+        "database_name": HEURIST_DATABASE_NAME,
+        "login": login,
+        "password": password,
+    }
 
 
 RECORD_GROUP_NAMES = [
@@ -31,11 +35,10 @@ RECORD_GROUP_NAMES = [
     "heurist",
     help="Download Heurist data and transform it into a DuckDB database.",
 )
-@click.option("-d", "--database", type=click.STRING, required=False)
 @click.option("-l", "--login", type=click.STRING, required=False)
 @click.option("-p", "--password", type=click.STRING, required=False)
-def download(database, login, password):
-    kwargs = get_vars(database, login, password)
+def download(login, password):
+    kwargs = get_vars(login, password)
     client = HeuristAPIClient(**kwargs)
     conn = duckdb.connect(HEURIST_DB)
     extract_transform_load(

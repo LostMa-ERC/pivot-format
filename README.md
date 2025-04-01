@@ -40,25 +40,24 @@ Short cut (for when you've already configured the project):
 
 ```shell
 # First step -- refresh Heurist download
-lostma heurist
+lostma build heurist
 ```
 
 ```shell
 # Second step -- recreate graph database
-lostma graph build
+lostma build graph
 ```
 
 ### Configure project
 
-Write your Heurist login credentials in a `.env` file. See [setup](https://lostma-erc.github.io/heurist-etl-pipeline/usage/#installation) for more information.
+Write your Heurist login credentials in a `.env` file.
 
 ```env
-DB_NAME=database_name
 DB_LOGIN="user.name"
 DB_PASSWORD=password
 ```
 
-In the [`config.yml`](./config.yml) file for this project, update / confirm metadata about this project's contributors.
+In the [`config.yml`](./config.yml) file, confirm the names of contributors associated with the language corpora of this project.
 
 ```yaml
 contributors:
@@ -71,23 +70,24 @@ contributors:
       - Jean-Baptiste Camps
 ```
 
+These names will be applied to the `<respStmt>` in a text's TEI-XML document, according to that text's language.
+
 ### 1. Download Heurist data
 
-Run the `lostma heurist` command of this package, which automatically reads all the necessary parameters from this project's config file and the `.env` file you set up.
+First things first, run the `lostma build heurist` command to refresh the downloaded data.
+
+This command relies on the config file (where to save the data) and the `.env` file (how to connect to Heurist) that you set up. See the [section](#configure-project) above.
 
 ```console
-$ lostma heurist
+$ lostma build heurist
 Get DB Structure ⠙ 0:00:01
 Get Records ━━━━━━━━━━━━━━━━━━━━ 25/25 0:00:11
 ```
 
-If you don't want to set up a `.env` file, pass the relevant parameters to the command as options.
+If you don't want to set up a `.env` file, you can still download the Heurist data by passing the your username and password as options to the command.
 
 ```shell
-lostma heurist \
---database heurist_database \
---login "user.name" \
---password "password"
+lostma build heurist --login "user.name" --password "password"
 ```
 
 ### 2. Transform into graph
@@ -107,6 +107,8 @@ file paths:
   heurist database: heurist.db
   graph database: kuzu_db
 ```
+
+None of these files are human-readable (they're in binary), but Kùzu understands them. Don't manually add or change anything in the graph database directory.
 
 ### 3a. Explore network
 

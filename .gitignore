@@ -170,11 +170,10 @@ cython_debug/
 # PyPI configuration file
 .pypirc
 
-*.db
+*db
 */**.xml
 */**.log*
 *.sh
 *.ipynb
 uninstall.txt
 *.gexf
-kuzu
