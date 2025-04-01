@@ -9,7 +9,7 @@ From the relational entities in LostMa's Heurist database, this package (1) tran
 - [Usage](#usage)
   - [Configure project](#configure-project)
   - [Download new Heurist data](#download-heurist-data)
-  - [Transform data into a graph]
+  - [Transform data into a graph](#transform-into-graph)
   - [Explore the network](#explore-network)
   - [Pivot data to TEI](#pivot-data-to-tei)
 - [Development](#development)
