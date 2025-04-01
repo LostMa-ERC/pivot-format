@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 
 from app import CONTRIBUTORS
-from app.tei.fetchers.language import LanguageTerm
+from app.tei.fetchers.language import LanguageModel
 
 
 @dataclass
@@ -10,11 +10,10 @@ class RespPerson:
     role: str
 
 
-def list_resp_persons(lang: LanguageTerm | None) -> list[RespPerson]:
+def list_resp_persons(lang: LanguageModel | None) -> list[RespPerson]:
 
-    language_code = None
-    if lang:
-        language_code = lang.code
+    language_code = getattr(lang, "code", None)
+    print(language_code)
 
     # Start list of people with data entry and proof correction
     # contributors

@@ -19,6 +19,7 @@ def find_node(tree: etree.ElementTree, xpath: str) -> etree.Element:
 
     matches = tree.xpath(xpath, namespaces=NSMAP)
     if len(matches) != 1:
+        print(xpath)
         raise IndexError()
     else:
         return matches[0]
