@@ -37,6 +37,10 @@ $ lostma workflow --username "user.name" --password "pass"
 
 > Currently, the workflow downloads data from Heurist and transforms it into an embedded graph database ([Kùzu](https://kuzudb.com/)). The goal is to have the workflow finish with the generation of TEI-XML files, but this last step is still in development.
 
+Once the workflow has run (the graph database has been built), consider exploring the networked data with the command `lostma explorer`. See [this section](./docs/explore_network.md) for details.
+
+![Screenshot of Kuzu Explorer schema view](./docs/img/kuzu_explorer.png)
+
 
 ## License
 
