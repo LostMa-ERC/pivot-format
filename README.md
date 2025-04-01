@@ -26,8 +26,6 @@ Obtaining file:///home/user/Dev/pivot-format
   Checking if build backend supports build_editable ... done
   Getting requirements to build editable ... done
   Installing backend dependencies ... done
-...
-Successfully built pivot heurist
 ```
 
 ## Usage
