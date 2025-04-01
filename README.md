@@ -7,11 +7,11 @@ From the relational entities in LostMa's Heurist database, this package (1) tran
 
 - [Installation](#installation)
 - [Usage](#usage)
-  - [Configure project](#configure-project)
-  - [Download new Heurist data](#download-heurist-data)
-  - [Transform data into a graph](#transform-into-graph)
-  - [Explore the network](#explore-network)
-  - [Pivot data to TEI](#pivot-data-to-tei)
+  - [Configure project metadata](#configure-project)
+  - [1. Download new Heurist data](#download-heurist-data)
+  - [2. Transform data into a graph](#transform-into-graph)
+  - [3a. Explore the network](#explore-network)
+  - [3b. Pivot data to TEI](#pivot-data-to-tei)
 - [Development](#development)
 - [License](#license)
 
