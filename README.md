@@ -74,9 +74,9 @@ These names will be applied to the `<respStmt>` in a text's TEI-XML document, ac
 
 ### 1. Download Heurist data
 
-First things first, run the `lostma build heurist` command to refresh the downloaded data.
+First things first, run the `lostma build heurist` command to download / refresh your downloaded Heurist data.
 
-This command relies on the config file (where to save the data) and the `.env` file (how to connect to Heurist) that you set up. See the [section](#configure-project) above.
+Everything about this workflow is local and designed to keep you up to date. So you personally need to have the data files downloaded on your machine. They're not installed with this project.
 
 ```console
 $ lostma build heurist
@@ -84,10 +84,10 @@ Get DB Structure ⠙ 0:00:01
 Get Records ━━━━━━━━━━━━━━━━━━━━ 25/25 0:00:11
 ```
 
-If you don't want to set up a `.env` file, you can still download the Heurist data by passing the your username and password as options to the command.
+If you don't want to set up a `.env` file, you can still download the Heurist data by passing your username and password as options.
 
-```shell
-lostma build heurist --login "user.name" --password "password"
+```console
+$ lostma build heurist --login "user.name" --password "password"
 ```
 
 ### 2. Transform into graph
