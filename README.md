@@ -123,7 +123,7 @@ Refresh the page that opened ([http://localhost:8000/](http://localhost:8000)) a
 
 ![Screenshot of Kuzu Explorer schema view](docs/kuzu_explorer.png)
 
-> Note: I'm aware that Kùzu Explorer currently does not support very old, historical dates, aka all of our date data. I've opened an [issue](https://github.com/kuzudb/explorer/issues/262) on their repository and will help look into this. Hopefully this is a temporary issue that will be resovled, and we can take full advantage of Kùzu Explorer.
+> Note: I'm aware that Kùzu Explorer currently does not support dates from the Middle Ages. You'll notice this if you look at the property `creation_date` on a Text object, for example. I've opened an [issue](https://github.com/kuzudb/explorer/issues/262) about this on their GitHub. Hopefully it will be resovled in due time, and we can take full advantage of Kùzu Explorer for our LostMa data.
 
 
 ### Pivot data to TEI
