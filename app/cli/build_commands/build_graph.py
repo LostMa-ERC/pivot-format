@@ -12,7 +12,7 @@ from app import HEURIST_DB, KUZU_DB
 from app.graph.builders import create_all_edges, create_all_nodes
 
 
-def build_command() -> kuzu.Connection:
+def build_graph() -> kuzu.Connection:
     if not Path(HEURIST_DB).is_file():
         rich.print(rich.text.Text("Error.", style="red"))
         rich.print(f"No downloaded database file at '{HEURIST_DB}'.")
@@ -36,5 +36,5 @@ def build_command() -> kuzu.Connection:
 
 
 @click.command("graph", help="Build the Heurist data into a graph database.")
-def build_graph():
-    build_command()
+def build_graph_command():
+    build_graph()

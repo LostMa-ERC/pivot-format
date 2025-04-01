@@ -31,22 +31,20 @@ RECORD_GROUP_NAMES = [
 ]
 
 
+def download(login: str | None, password: str | None):
+    kwargs = get_vars(login, password)
+    client = HeuristAPIClient(**kwargs)
+    conn = duckdb.connect(HEURIST_DB)
+    extract_transform_load(
+        client=client, duckdb_connection=conn, record_group_names=RECORD_GROUP_NAMES
+    )
+
+
 @click.command(
     "heurist",
     help="Download Heurist data and transform it into a DuckDB database.",
 )
 @click.option("-l", "--login", type=click.STRING, required=False)
 @click.option("-p", "--password", type=click.STRING, required=False)
-def download(login, password):
-    kwargs = get_vars(login, password)
-    client = HeuristAPIClient(**kwargs)
-    conn = duckdb.connect(HEURIST_DB)
-    extract_transform_load(
-        client=client,
-        duckdb_connection=conn,
-        record_group_names=RECORD_GROUP_NAMES,
-    )
-
-
-if __name__ == "__main__":
-    download()
+def build_heurist_command(login, password):
+    download(login=login, password=password)
