@@ -1,10 +1,10 @@
 import click
 
-from app.cli.graph.build_graph import build_command
+from app.cli.build_commands.build_graph import build_command
 from app.utils.write_gexf import write_gexf
 
 
-@click.command("gexf")
+@click.command("gexf", help="Transform the graph database into a GEXF file.")
 @click.option("-n", "--node", multiple=True, type=click.STRING)
 @click.argument("outfile")
 def build_gexf(outfile: str, node: tuple[str]):

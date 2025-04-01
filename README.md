@@ -1,7 +1,7 @@
 # Pivot Heurist database to TEI documents
 [![License: CC BY-SA 4.0](https://img.shields.io/badge/License-CC_BY--SA_4.0-lightgrey.svg)](https://creativecommons.org/licenses/by-sa/4.0/)
 
-From the relational entities in LostMa's Heurist database, this package generates TEI documents, based at the level of a Text.
+From the relational entities in LostMa's Heurist database, this package (1) transforms the data into a graph network and (2) generates TEI documents, based at the level of a Text.
 
 ## Table of contents
 
@@ -9,6 +9,8 @@ From the relational entities in LostMa's Heurist database, this package generate
 - [Usage](#usage)
   - [Configure project](#configure-project)
   - [Download new Heurist data](#download-heurist-data)
+  - [Transform data into a graph]
+  - [Explore the network](#explore-network)
   - [Pivot data to TEI](#pivot-data-to-tei)
 - [Development](#development)
 - [License](#license)
@@ -37,15 +39,14 @@ Successfully built pivot heurist
 Short cut (for when you've already configured the project):
 
 ```shell
-# First step
-lostma-tei heurist download
+# First step -- refresh Heurist download
+lostma heurist
 ```
 
 ```shell
-# Second step
-lostma-tei pivot texts
+# Second step -- recreate graph database
+lostma graph build
 ```
-
 
 ### Configure project
 
@@ -67,10 +68,10 @@ file paths:
 
 ### Download Heurist data
 
-Run the `heurist download` command of this package, which automatically reads all the necessary parameters from this project's config file and the `.env` file you set up.
+Run the `lostma heurist` command of this package, which automatically reads all the necessary parameters from this project's config file and the `.env` file you set up.
 
 ```console
-$ lostma-tei heurist download
+$ lostma heurist
 Get DB Structure ⠙ 0:00:01
 Get Records ━━━━━━━━━━━━━━━━━━━━ 25/25 0:00:11
 ```
@@ -78,19 +79,57 @@ Get Records ━━━━━━━━━━━━━━━━━━━━ 25/25 0
 If you don't want to set up a `.env` file, pass the relevant parameters to the command as options.
 
 ```shell
-lostma-tei heurist download \
+lostma heurist \
 --database heurist_database \
 --login "user.name" \
 --password "password"
 ```
 
-### Pivot data to TEI
+### Transform into graph
 
-Run the `pivot texts` command of this package to select all the texts loaded into the DuckDB database and transform them into TEI-XML documents. The documents will be written in the `output directory` folder you specified in the [`config.yml`](./config.yml) file.
+Because LostMa's data is so networked, a graph is the most intuitive way to structure it for analysis. In preparation for any future work (pivot to TEI documents, explore the network), use the command `lostma build graph` transform and save the data in an embedded, in-process Kùzu graph database.
 
 ```console
-$ lostma-tei pivot texts
-Transforming text metadata... ━━━━━━━━━━━━━━━━━━━━ 487/487 0:00:13
+$ lostma build graph
+Connecting to Heurist download... ⠋
+Rebuilding Kùzu database ⠏
+```
+
+### Explore network
+
+The `lostma graph build` command transforms the downloaded Heurist data into an embedded Kùzu graph database.
+
+A convenient way to explore this network is with [Kùzu Explorer](https://docs.kuzudb.com/visualization/). To take advantage of this, do the following:
+
+1. Install [Docker Desktop](https://www.docker.com/products/docker-desktop/) (or some other [Docker](https://docs.docker.com/get-started/get-docker/) installation) and start the program. Docker needs to be running in the background for this to work.
+
+2. Run the command `lostma explorer`.
+
+```console
+$ lostma explorer
+[09:54:31.198] INFO (1): Access mode: READ_ONLY
+[09:54:31.655] INFO (1): Version of Kuzu: 0.8.2
+[09:54:31.656] INFO (1): Storage version of Kuzu: 36
+[09:54:31.660] INFO (1): Deployed server started on port: 8000
+```
+
+This should open a new tab on your default browser. If not, navigate to [http://localhost:8000/](http://localhost:8000). At first, this page will not be loaded properly. This is normal! It will need to be refreshed after Docker has finished setting up Kùzu Explorer.
+
+If this is the first time you're running the `lostma explorer` command, it will take time to download Kùzu Explorer into your Docker installation. You can watch this progress in your terminal.
+
+Once everything's ready, you'll see the line `Deployed server started on port: 8000` (see the last line of the code block above).
+
+Refresh the page that opened ([http://localhost:8000/](http://localhost:8000)) and you're ready to begin!
+
+![Screenshot of Kuzu Explorer schema view](docs/kuzu_explorer.png)
+
+
+### Pivot data to TEI
+
+Run the `lostma pivot texts` command of this package to select all the texts loaded into the DuckDB database and transform them into TEI-XML documents. The documents will be written in the `output directory` folder you specified in the [`config.yml`](./config.yml) file.
+
+```
+... in development ...
 ```
 
 ## Development

@@ -27,7 +27,10 @@ RECORD_GROUP_NAMES = [
 ]
 
 
-@click.command("download")
+@click.command(
+    "heurist",
+    help="Download Heurist data and transform it into a DuckDB database.",
+)
 @click.option("-d", "--database", type=click.STRING, required=False)
 @click.option("-l", "--login", type=click.STRING, required=False)
 @click.option("-p", "--password", type=click.STRING, required=False)

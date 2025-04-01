@@ -2,8 +2,8 @@ import click
 import importlib.metadata
 
 # from app.cli.pivot import pivot
-from app.cli.heurist.heurist_download import download
-from app.cli.graph import graph
+from app.cli.build_commands import build
+from app.cli.explorer import run_kuzu_explorer
 
 __identifier__ = importlib.metadata.version("lostma-tei")
 
@@ -18,6 +18,6 @@ if __name__ == "__main__":
     cli()
 
 
-cli.add_command(download)
+cli.add_command(build)
+cli.add_command(run_kuzu_explorer)
 # cli.add_command(pivot)
-cli.add_command(graph)

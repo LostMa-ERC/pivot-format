@@ -9,7 +9,7 @@ dependencies = [
     "heurist @ git+ssh://git@github.com/LostMa-ERC/heurist-etl-pipeline",
     "pyyaml>=6.0.2",
     "kuzu>=0.8.2",
-    "networkx>=3.4.2"
+    "networkx>=3.4.2",
 ]
 dynamic = ["version"]
 requires-python = ">=3.12"
@@ -19,7 +19,7 @@ description = ""
 dev = ["black>=24.1.0", "isort>=5.13.0", "pytest"]
 
 [project.scripts]
-lostma-tei = "app.cli.main:cli"
+lostma = "app.cli.main:cli"
 
 [tool.hatch]
 

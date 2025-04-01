@@ -38,19 +38,19 @@ class Metadata:
         # create a flat structured data type
         if temporal:
             self.type = """STRUCT(
-start_earliest TIMESTAMP,
-start_latest TIMESTAMP,
+start_earliest DATE,
+start_latest DATE,
 start_prob STRING,
 start_cert STRING,
-end_earliest TIMESTAMP,
-end_latest TIMESTAMP,
+end_earliest DATE,
+end_latest DATE,
 end_prob STRING,
 end_cert STRING,
-timestamp_year TIMESTAMP,
+timestamp_year DATE,
 timestamp_type STRING,
 timestamp_circa BOOL,
-est_min TIMESTAMP,
-est_max TIMESTAMP,
+est_min DATE,
+est_max DATE,
 est_prob STRING,
 est_cert STRING
 )"""
@@ -65,19 +65,19 @@ est_cert STRING
     def sql_alias(self) -> str:
         if self.temporal:
             s = f"""
-'start_earliest': CAST({self.duckdb_col}.start.earliest AS TIMESTAMP),
-'start_latest': CAST({self.duckdb_col}.start.latest AS TIMESTAMP),
+'start_earliest': DATETRUNC('day', CAST({self.duckdb_col}.start.earliest AS TIMESTAMP)),
+'start_latest': DATETRUNC('day', CAST({self.duckdb_col}.start.latest AS TIMESTAMP)),
 'start_prob': CAST({self.duckdb_col}.start.estProfile AS VARCHAR),
 'start_cert': CAST({self.duckdb_col}.start.estDetermination AS VARCHAR),
-'end_earliest': CAST({self.duckdb_col}.end.earliest AS TIMESTAMP),
-'end_latest': CAST({self.duckdb_col}.end.latest AS TIMESTAMP),
+'end_earliest': DATETRUNC('day', CAST({self.duckdb_col}.end.earliest AS TIMESTAMP)),
+'end_latest': DATETRUNC('day', CAST({self.duckdb_col}.end.latest AS TIMESTAMP)),
 'end_prob': CAST({self.duckdb_col}.end.estProfile AS VARCHAR),
 'end_cert': CAST({self.duckdb_col}.end.estDetermination AS VARCHAR),
-'timestamp_year': CAST({self.duckdb_col}.timestamp.in AS TIMESTAMP),
+'timestamp_year': DATETRUNC('day', CAST({self.duckdb_col}.timestamp.in AS TIMESTAMP)),
 'timestamp_type': CAST({self.duckdb_col}.timestamp.type AS VARCHAR),
 'timestamp_circa': CAST({self.duckdb_col}.timestamp.circa AS BOOL),
-'est_min': CAST({self.duckdb_col}.estMinDate AS TIMESTAMP),
-'est_max': CAST({self.duckdb_col}.estMaxDate AS TIMESTAMP),
+'est_min': DATETRUNC('day', CAST({self.duckdb_col}.estMinDate AS TIMESTAMP)),
+'est_max': DATETRUNC('day', CAST({self.duckdb_col}.estMaxDate AS TIMESTAMP)),
 'est_prob': CAST({self.duckdb_col}.estProfile AS VARCHAR),
 'est_cert': CAST({self.duckdb_col}.estDetermination AS VARCHAR)
 """

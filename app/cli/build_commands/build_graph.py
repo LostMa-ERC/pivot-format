@@ -35,6 +35,6 @@ def build_command() -> kuzu.Connection:
     return kconn
 
 
-@click.command("build")
+@click.command("graph", help="Build the Heurist data into a graph database.")
 def build_graph():
     build_command()
