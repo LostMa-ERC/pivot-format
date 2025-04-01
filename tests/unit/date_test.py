@@ -17,6 +17,9 @@ class Test(unittest.TestCase):
             "RETURN n.creation_date.start_earliest"
         )
         response = kconn.execute(query)
+        # Make sure the query returned results
+        self.assertGreater(response.get_num_tuples(), 1)
+        # Make sure every result is a date
         while response.has_next():
             result = response.get_next()[0]
             self.assertIsInstance(result, date)
