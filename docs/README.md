@@ -10,7 +10,7 @@ When running commands individually, respect the order below:
     - [`lostma build graph`](./transform_into_graph.md)
 3. Have fun!
     - [`lostma explorer`](./explore_network.md) : Visualise and query the network in a browser.
-    - [`lostma pivot texts`](./pivot_data_to_tei.md): Generate TEI-XML documents.
+    - [`lostma pivot`](./pivot_data_to_tei.md): Generate TEI-XML documents.
 
 ---
 

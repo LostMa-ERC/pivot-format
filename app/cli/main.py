@@ -1,7 +1,7 @@
 import click
 import importlib.metadata
 
-from app.cli.pivot_texts import pivot_all_texts
+from app.cli.pivot_texts import pivot_command, pivot_all_texts
 from app.cli.build_commands import build
 from app.cli.build_commands.heurist_download import download
 from app.cli.build_commands.build_graph import build_graph
@@ -22,6 +22,7 @@ def cli():
 def run_workflow(login, password):
     download(login=login, password=password)
     build_graph()
+    pivot_all_texts()
 
 
 if __name__ == "__main__":
@@ -29,4 +30,4 @@ if __name__ == "__main__":
 
 cli.add_command(build)
 cli.add_command(run_kuzu_explorer)
-cli.add_command(pivot_all_texts)
+cli.add_command(pivot_command)

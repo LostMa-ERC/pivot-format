@@ -35,7 +35,16 @@ Run the full workflow, providing your Heurist username (i.e. `"user.name"`) and 
 $ lostma workflow --username "user.name" --password "pass"
 ```
 
-> Currently, the workflow downloads data from Heurist and transforms it into an embedded graph database ([Kùzu](https://kuzudb.com/)). The goal is to have the workflow finish with the generation of TEI-XML files, but this last step is still in development.
+The last step of the full workflow is the generation of TEI-XML documents for each text entered into the graph database. You can find them in the output directory, which is specified in the [config YAML](./config.yml).
+
+```console
+$ lostma workflow
+Get DB Structure ⠼ 0:00:00
+Get Records ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 25/25 0:00:11
+Rebuilding Kùzu database ⠋
+Writing text documents... ━━━━━━━━━━━━━━━━━━ 0:00:15 517/517
+
+```
 
 Once the workflow has run (the graph database has been built), consider exploring the networked data with the command `lostma explorer`. See [this section](./docs/explore_network.md) for details.
 

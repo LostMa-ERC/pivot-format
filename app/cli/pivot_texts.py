@@ -24,8 +24,9 @@ def get_all_texts(conn: kuzu.Connection) -> list[int]:
     return ids
 
 
-@click.command("pivot")
 def pivot_all_texts():
+    if not Path(KUZU_DB).is_dir():
+        raise NotADirectoryError()
     # Connect to Kuzu database
     db = kuzu.Database(KUZU_DB, read_only=True)
     conn = kuzu.Connection(db)
@@ -56,3 +57,8 @@ def pivot_all_texts():
             subdir.mkdir(exist_ok=True)
             doc.write(outfile=subdir.joinpath(stem))
             p.advance(t)
+
+
+@click.command("pivot", help="[COMMAND] Pivot all the texts to TEI documents.")
+def pivot_command():
+    pivot_all_texts()

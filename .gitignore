@@ -178,4 +178,4 @@ cython_debug/
 uninstall.txt
 *.gexf
 *.xml
-output/*
+output
