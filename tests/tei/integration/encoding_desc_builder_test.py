@@ -4,6 +4,7 @@ from app.graph.edges.has_genre import TextHasGenre
 from app.graph.edges.has_parent_genre import GenreHasParent
 
 from tests.tei.integration import TEIIntegrationTest
+from app.tei.parsers.text_tree import TextXMLTree
 from app.tei.builders.text import build_encondingDesc
 
 
@@ -11,6 +12,9 @@ class TextEncodingTest(TEIIntegrationTest):
     maxDiff = None
 
     def test_genre_parentage(self):
+        # Get the default encodingDesc tree branch
+        root = TextXMLTree().encodingDesc
+
         # Get a text with nested genres
         iterate_texts = f"""
         MATCH path=(g:Genre)
@@ -25,15 +29,11 @@ class TextEncodingTest(TEIIntegrationTest):
             break
 
         # Fetch and encode the text's nested genres
-        tree = self.builder.parser.encodingDesc
-        build_encondingDesc(conn=self.kconn, text_id=text_id, root=tree)
+        build_encondingDesc(conn=self.kconn, text_id=text_id, root=root)
 
         # Count the created nodes, nested under <category xml:id="genre">
-        nodes = tree.genre_taxonomy.findall(".//category")
+        nodes = root.genre_taxonomy.findall(".//category")
         self.assertGreaterEqual(len(nodes), 2)
-
-        # Check the output (temporary)
-        self.builder.write("example.xml")
 
 
 if __name__ == "__main__":

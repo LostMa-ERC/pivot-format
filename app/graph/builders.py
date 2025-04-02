@@ -11,6 +11,7 @@ from app.graph.edges import (
     is_manifestation_of,
     is_modeled_on,
     is_part_of_storyverse,
+    is_attributed_to,
 )
 
 # ============= NODES ============= #
@@ -21,6 +22,7 @@ from app.graph.nodes.storyverse import Storyverse
 from app.graph.nodes.term import Language
 from app.graph.nodes.text import Text
 from app.graph.nodes.witness import Witness
+from app.graph.nodes.person import Person
 
 ALL_EDGES = [
     is_modeled_on.IsModeledOn,
@@ -30,6 +32,7 @@ ALL_EDGES = [
     has_parent_genre.GenreHasParent,
     has_genre.TextHasGenre,
     is_manifestation_of.WitnessIsManifestationOf,
+    is_attributed_to.IsAttributedTo,
 ]
 
 ALL_NODES = [
@@ -39,6 +42,7 @@ ALL_NODES = [
     Language,
     Genre,
     Witness,
+    Person,
 ]
 
 

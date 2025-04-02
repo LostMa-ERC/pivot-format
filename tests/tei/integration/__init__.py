@@ -2,7 +2,7 @@ import unittest
 import kuzu
 
 from app.graph import build_graph_from_defaults
-from app.tei.text_builder import TextTEIBuilder
+from app.tei.parsers.text_tree import TextXMLTree
 
 
 class TEIIntegrationTest(unittest.TestCase):
@@ -10,6 +10,5 @@ class TEIIntegrationTest(unittest.TestCase):
         db = kuzu.Database()
         self.kconn = kuzu.Connection(db)
         build_graph_from_defaults(kconn=self.kconn)
-
-        self.builder = TextTEIBuilder(conn=self.kconn)
+        self.tree = TextXMLTree
         return super().setUp()

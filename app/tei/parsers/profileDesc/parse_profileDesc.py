@@ -1,6 +1,6 @@
 from lxml import etree
 
-from app.tei.xml.find_node import find_node
+from app.tei.parsers.find_node import find_node
 
 
 class ProfileDescXML:
@@ -15,6 +15,6 @@ class ProfileDescXML:
         return find_node(tree=self.tree, xpath=xpath)
 
     @property
-    def languUsage(self) -> etree.Element:
+    def langUsage(self) -> etree.Element:
         xpath = ".//tei:profileDesc/tei:langUsage"
         return find_node(tree=self.tree, xpath=xpath)

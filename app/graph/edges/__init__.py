@@ -30,10 +30,10 @@ class EdgeBuilder:
     @classmethod
     def compose_create_statement(cls, edge: Edge) -> str:
         pairs = [f"FROM {r.from_node} TO {r.to_node}" for r in edge.relations]
+        props = pairs + edge.properties
         return f"""
 CREATE REL TABLE IF NOT EXISTS {edge.table_name} (
-    {', '.join(pairs)}
-    {', '.join(edge.properties)}
+    {', '.join(props)}
 )
 """
 

@@ -4,10 +4,10 @@ from lxml import etree
 from app.constants import XML_ID
 
 # XML parser for the encodingDesc branch
-from app.tei.xml.encodingDesc.parse_encodingDesc import EncodingDescXML
+from app.tei.parsers.encodingDesc.parse_encodingDesc import EncodingDescXML
 
 # Fetch data needed for the encodingDesc
-from app.tei.data.text.genre import fetch_genres, GenreModel
+from app.tei.data.text.genre import GenreModel, fetch_genres
 
 
 def make_genre_category(parent: etree.Element, genre: GenreModel) -> etree.Element:

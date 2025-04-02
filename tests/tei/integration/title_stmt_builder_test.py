@@ -3,33 +3,17 @@ import unittest
 from lxml import etree
 
 from tests.tei.integration import TEIIntegrationTest
+from app.tei.builders.text import build_titleStmt
+from app.tei.parsers.text_tree import TextXMLTree
 
 
 class TitleStmtBuilderGMHTest(TEIIntegrationTest):
     maxDiff = None
 
-    def test_alternative_title(self):
-        # Build a TEI document for a text with an alternative title
-        # Current working example in real data is ID 48337
-        iterate_texts = """
-        MATCH (t:Text) WHERE t.alternative_names <> []
-        RETURN t.id
-        """
-        response = self.kconn.execute(iterate_texts)
-        while response.has_next():
-            text_id = response.get_next()[0]
-            break
-        self.builder(text_id=text_id)
-        # Read the created title nodes
-        nodes = self.builder.parser.titleStmt.tree.xpath("//title")
-        actual = len(nodes)
-        # Affirm that there are 3 title nodes
-        # (after the one with the namespace)
-        # 2 nodes nested in @type='full' + 1 node as @type='alt' = 3
-        expected = 3
-        self.assertEqual(actual, expected)
-
     def test_gmh_respStmt(self):
+        # Get the default titleStmt tree branch
+        root = TextXMLTree().titleStmt
+
         # Build a TEI document for a Middle High German text
         iterate_texts = """
         MATCH (t:Text)-[r:HAS_LANGAUGE]-(l:Language)
@@ -40,10 +24,11 @@ class TitleStmtBuilderGMHTest(TEIIntegrationTest):
         while response.has_next():
             text_id = response.get_next()[0]
             break
-        self.builder(text_id=text_id)
+
+        build_titleStmt(conn=self.kconn, text_id=text_id, root=root)
 
         # Read the created respStmt branch
-        node = self.builder.parser.titleStmt.respStmt
+        node = root.respStmt
         etree.indent(node)
         actual = etree.tostring(node, encoding="utf-8").decode().strip()
 

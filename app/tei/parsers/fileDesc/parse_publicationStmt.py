@@ -2,7 +2,7 @@ from datetime import datetime
 
 from lxml import etree
 
-from app.tei.xml.find_node import find_node
+from app.tei.parsers.find_node import find_node
 
 
 class PublicationStmtXML:

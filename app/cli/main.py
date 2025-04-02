@@ -1,7 +1,7 @@
 import click
 import importlib.metadata
 
-# from app.cli.pivot import pivot
+from app.cli.pivot_texts import pivot_all_texts
 from app.cli.build_commands import build
 from app.cli.build_commands.heurist_download import download
 from app.cli.build_commands.build_graph import build_graph
@@ -29,4 +29,4 @@ if __name__ == "__main__":
 
 cli.add_command(build)
 cli.add_command(run_kuzu_explorer)
-# cli.add_command(pivot)
+cli.add_command(pivot_all_texts)
