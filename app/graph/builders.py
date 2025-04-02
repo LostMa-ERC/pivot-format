@@ -1,4 +1,5 @@
 from duckdb import DuckDBPyConnection
+from kuzu import Connection
 
 # ============= EDGES ============= #
 from app.graph.edges import (
@@ -20,7 +21,6 @@ from app.graph.nodes.storyverse import Storyverse
 from app.graph.nodes.term import Language
 from app.graph.nodes.text import Text
 from app.graph.nodes.witness import Witness
-from kuzu import Connection
 
 ALL_EDGES = [
     is_modeled_on.IsModeledOn,

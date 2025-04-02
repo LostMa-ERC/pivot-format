@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 
 from app import CONTRIBUTORS
-from app.tei.fetchers.language import LanguageModel
+from app.tei.data.text.language import LanguageModel
 
 
 @dataclass

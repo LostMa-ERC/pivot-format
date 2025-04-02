@@ -1,26 +1,12 @@
 import unittest
 
-import duckdb
 from lxml import etree
 
-import kuzu
-from app import HEURIST_DB
-from app.graph.builders import create_all_edges, create_all_nodes
-from app.tei.text_builder import TextTEIBuilder
+from tests.tei.integration import TEIIntegrationTest
 
 
-class TitleStmtBuilderGMHTest(unittest.TestCase):
+class TitleStmtBuilderGMHTest(TEIIntegrationTest):
     maxDiff = None
-
-    def setUp(self):
-        db = kuzu.Database()
-        self.kconn = kuzu.Connection(db)
-        self.dconn = duckdb.connect(HEURIST_DB)
-        create_all_nodes(kconn=self.kconn, dconn=self.dconn)
-        create_all_edges(kconn=self.kconn, dconn=self.dconn)
-
-        self.builder = TextTEIBuilder(conn=self.kconn)
-        return super().setUp()
 
     def test_alternative_title(self):
         # Build a TEI document for a text with an alternative title

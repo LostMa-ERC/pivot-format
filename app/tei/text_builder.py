@@ -2,8 +2,8 @@ from datetime import datetime
 
 from lxml import etree
 
-from app.tei.branches import build_titleStmt
-from app.tei.text_xml_parser import ParserTextTEI_XML
+from app.tei.builders.text import build_titleStmt
+from app.tei.xml.text_tree import ParserTextTEI_XML
 from kuzu import Connection
 
 

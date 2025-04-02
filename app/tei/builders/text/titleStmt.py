@@ -1,14 +1,14 @@
 from lxml import etree
 
-from app.tei.builders.respStmt import list_resp_persons
-from app.tei.fetchers.language import fetch_language
-from app.tei.fetchers.text_alternative_titles import fetch_alternative_title
-from app.tei.fetchers.text_title import fetch_title
-from app.tei.text_xml_parser import ParserTitleStmt
+from app.tei.builders.text.respStmt import list_resp_persons
+from app.tei.data.text.language import fetch_language
+from app.tei.data.text.alternative_titles import fetch_alternative_title
+from app.tei.data.text.title import fetch_title
+from app.tei.xml.fileDesc import TitleStmtXML
 from kuzu import Connection
 
 
-def build_titleStmt(conn: Connection, text_id: int, root: ParserTitleStmt):
+def build_titleStmt(conn: Connection, text_id: int, root: TitleStmtXML):
     # Set the main title
     data = fetch_title(conn=conn, id=text_id)
     main = etree.SubElement(root.title, "title", type="main")
