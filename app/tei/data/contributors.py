@@ -10,14 +10,15 @@ class RespPerson:
     role: str
 
 
-def list_resp_persons(lang: LanguageModel | None) -> list[RespPerson]:
+def list_resp_persons(
+    lang: LanguageModel | None,
+    contributors: dict = CONTRIBUTORS,
+) -> list[RespPerson]:
 
     language_code = getattr(lang, "code", None)
-    print(language_code)
 
     # Start list of people with data entry and proof correction
-    # contributors
-    languages = CONTRIBUTORS["data entry"]
+    languages = contributors["data entry"]
     if language_code and languages.get(language_code):
         names = languages[language_code]
     else:
@@ -34,7 +35,7 @@ def list_resp_persons(lang: LanguageModel | None) -> list[RespPerson]:
     people.extend(
         [
             RespPerson(name=n, role="conversion of metadata to TEI markup")
-            for n in CONTRIBUTORS["encoding"]["metadata"]
+            for n in contributors["encoding"]["metadata"]
         ]
     )
 
@@ -43,7 +44,7 @@ def list_resp_persons(lang: LanguageModel | None) -> list[RespPerson]:
     people.extend(
         [
             RespPerson(name=n, role="conversion of text to TEI markup")
-            for n in CONTRIBUTORS["encoding"]["text"]
+            for n in contributors["encoding"]["text"]
         ]
     )
 

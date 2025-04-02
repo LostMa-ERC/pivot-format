@@ -1,11 +1,14 @@
 from lxml import etree
+from kuzu import Connection
 
-from app.tei.builders.text.respStmt import list_resp_persons
+# XML parser for the titleStmt branch
+from app.tei.xml.fileDesc import TitleStmtXML
+
+# Fetch data needed for the titleStmt
+from app.tei.data.contributors import list_resp_persons
 from app.tei.data.text.language import fetch_language
 from app.tei.data.text.alternative_titles import fetch_alternative_title
 from app.tei.data.text.title import fetch_title
-from app.tei.xml.fileDesc import TitleStmtXML
-from kuzu import Connection
 
 
 def build_titleStmt(conn: Connection, text_id: int, root: TitleStmtXML):

@@ -2,25 +2,33 @@ from datetime import datetime
 
 from lxml import etree
 
-from app.tei.builders.text import build_titleStmt
-from app.tei.xml.text_tree import ParserTextTEI_XML
+from app.tei.builders.text import build_titleStmt, build_encondingDesc
+from app.tei.xml.text_tree import TextXMLTree
 from kuzu import Connection
 
 
 class TextTEIBuilder:
     def __init__(self, conn: Connection):
-        self.parser = ParserTextTEI_XML()
         self.conn = conn
 
-    def __call__(self, text_id: int):
+    def __call__(self, text_id: int) -> etree.ElementTree:
+        self.parser = TextXMLTree()
+        # Build the titleStmt
         build_titleStmt(
             conn=self.conn,
             text_id=text_id,
             root=self.parser.titleStmt,
         )
-        # build the publicationStmt
+        # Build the publicationStmt
         node = self.parser.publicationStmt.date
         node.text = datetime.today().strftime("%Y-%m-%d")
+        # Build the encodingDesc
+        build_encondingDesc(
+            conn=self.conn,
+            text_id=text_id,
+            root=self.parser.encodingDesc,
+        )
+        return self.parser.tree
 
     def write(self, outfile: str) -> None:
         etree.indent(self.parser.tree)

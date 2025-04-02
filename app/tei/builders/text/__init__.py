@@ -1,5 +1,5 @@
 from .titleStmt import build_titleStmt
-from .respStmt import list_resp_persons
+from .encodingDesc import build_encondingDesc
 
 build_titleStmt
-list_resp_persons
+build_encondingDesc
