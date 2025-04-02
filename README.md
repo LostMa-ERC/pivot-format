@@ -38,7 +38,7 @@ $ lostma workflow --username "user.name" --password "pass"
 The last step of the full workflow is the generation of TEI-XML documents for each text entered into the graph database. You can find them in the output directory, which is specified in the [config YAML](./config.yml).
 
 ```console
-$ lostma workflow
+$ lostma workflow --username "user.name" --password "pass"
 Get DB Structure ⠼ 0:00:00
 Get Records ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 25/25 0:00:11
 Rebuilding Kùzu database ⠋
