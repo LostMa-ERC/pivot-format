@@ -2,14 +2,13 @@ import shutil
 from pathlib import Path
 
 import click
-import duckdb
 import kuzu
 import rich
 import rich.text
 from rich.progress import Progress, SpinnerColumn, TextColumn
 
 from app import HEURIST_DB, KUZU_DB
-from app.graph.builders import create_all_edges, create_all_nodes
+from app.graph import build_graph_from_defaults
 
 
 def build_graph() -> kuzu.Connection:
@@ -21,17 +20,13 @@ def build_graph() -> kuzu.Connection:
         exit()
 
     with Progress(TextColumn("{task.description}"), SpinnerColumn()) as p:
-        _ = p.add_task("Connecting to Heurist download...")
-        dconn = duckdb.connect(HEURIST_DB)
-
-    with Progress(TextColumn("{task.description}"), SpinnerColumn()) as p:
         _ = p.add_task("Rebuilding Kùzu database")
         if Path(KUZU_DB).is_dir():
             shutil.rmtree(KUZU_DB)
         db = kuzu.Database(KUZU_DB)
         kconn = kuzu.Connection(db)
-        create_all_nodes(kconn=kconn, dconn=dconn)
-        create_all_edges(kconn=kconn, dconn=dconn)
+        build_graph_from_defaults(kconn=kconn)
+
     return kconn
 
 
