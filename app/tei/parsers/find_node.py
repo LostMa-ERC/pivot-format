@@ -1,6 +1,6 @@
 from lxml import etree
 
-from app.constants import NSMAP
+from app.tei.constants import NSMAP
 
 
 def find_node(tree: etree.ElementTree, xpath: str) -> etree.Element:

@@ -1,7 +1,7 @@
 from lxml import etree
 from kuzu import Connection
 
-from app.constants import XML_ID
+from app.tei.constants import XML_ID
 
 # XML parser for the sourceDesc branch
 from app.tei.parsers.sourceDesc import SourceDescXML

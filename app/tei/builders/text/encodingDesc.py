@@ -1,7 +1,7 @@
 from kuzu import Connection
 from lxml import etree
 
-from app.constants import XML_ID
+from app.tei.constants import XML_ID
 
 # XML parser for the encodingDesc branch
 from app.tei.parsers.encodingDesc.parse_encodingDesc import EncodingDescXML
