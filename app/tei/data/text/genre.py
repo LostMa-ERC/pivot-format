@@ -124,6 +124,7 @@ RETURN DISTINCT g.id AS genre, false AS isChildless
 UNION ALL
 MATCH (g:Genre) WHERE not ((g)-[:HAS_PARENT]-(:Genre))
 RETURN g.id, true
+ORDER BY g.name
 """
     response = conn.execute(root_genres)
     for root_id, childless in response.get_as_pl().iter_rows():
