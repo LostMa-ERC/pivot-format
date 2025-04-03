@@ -9,6 +9,7 @@ from app.tei.data.text.tradition_status import StatusModel, fetch_all_tradition_
 
 # XML parser for the encodingDesc branch
 from app.tei.parsers.encodingDesc.parse_encodingDesc import EncodingDescXML
+from app.tei.parsers.find_node import find_node
 
 
 def make_genre_category(parent: etree.Element, genre: GenreModel) -> etree.Element:
@@ -69,3 +70,7 @@ def build_encondingDesc(conn: Connection, root: EncodingDescXML) -> None:
     # Dynamically build the taxonomy for a text's tradition status
     for status in fetch_all_tradition_statuses(conn=conn):
         make_status_category(parent=root.tradition_status_taxonomy, status=status)
+
+    # Return the created tree
+    parent_node = find_node(tree=root.tree, xpath=".//tei:encodingDesc")
+    return parent_node

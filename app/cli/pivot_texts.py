@@ -1,17 +1,20 @@
+import shutil
+from pathlib import Path
+
 import click
 import kuzu
-from pathlib import Path
-from app import OUTDIR_PATH, KUZU_DB
-import shutil
-
-from app.tei.text_builder import TextDocument
 from rich.progress import (
-    Progress,
     BarColumn,
+    MofNCompleteColumn,
+    Progress,
     TextColumn,
     TimeElapsedColumn,
-    MofNCompleteColumn,
 )
+
+from app import KUZU_DB, OUTDIR_PATH
+from app.tei.builders.text.encodingDesc import build_encondingDesc
+from app.tei.parsers.text_tree import TextXMLTree
+from app.tei.text_builder import TextDocument
 
 OUTDIR = Path(OUTDIR_PATH)
 
@@ -38,6 +41,9 @@ def pivot_all_texts():
     assert not OUTDIR.is_dir()
     OUTDIR.mkdir()
 
+    # Build the standard encodingDesc, which applies to all documents
+    encodingDesc = build_encondingDesc(conn=conn, root=TextXMLTree().encodingDesc)
+
     # Build each text's TEI document
     with Progress(
         TextColumn("{task.description}"),
@@ -48,7 +54,7 @@ def pivot_all_texts():
         t = p.add_task("Writing text documents...", total=len(texts))
         for i in texts:
             stem = f"text_{i}.xml"
-            doc = TextDocument(conn=conn, text_id=i)
+            doc = TextDocument(conn=conn, text_id=i, encodingDesc_node=encodingDesc)
             subdir = OUTDIR.joinpath("null")
             if doc.lang.code != "":
                 subdir = OUTDIR.joinpath(doc.lang.code)
