@@ -1,23 +1,17 @@
-import kuzu
 import unittest
+
+import kuzu
 
 from app.graph import build_graph_from_defaults
 from app.tei.text_builder import TextDocument
 
 
 class TEITest(unittest.TestCase):
-    def test(self):
+
+    def test_text_with_author(self):
         db = kuzu.Database()
         conn = kuzu.Connection(db)
         build_graph_from_defaults(kconn=conn)
-
-        # Get a random text node
-        # import random
-        # offset = random.randint(1, 5)
-        # query = f"""MATCH (t:Text)-[r:HAS_GENRE]-(g:Genre)
-        # WHERE t.alternative_names <> []
-        # AND g.name <> "Other"
-        # RETURN t.id SKIP {offset} LIMIT 1"""
 
         # Get a text with 1 or more authors, who have a reference URL
         query = """
@@ -32,7 +26,26 @@ class TEITest(unittest.TestCase):
 
         # Build a TEI document for the text
         doc = TextDocument(conn=conn, text_id=text_id)
-        doc.write(outfile="example.xml")
+        doc.write(outfile="tests/authors.xml")
+
+    def test_text_with_nested_genres(self):
+        db = kuzu.Database()
+        conn = kuzu.Connection(db)
+        build_graph_from_defaults(kconn=conn)
+
+        # Get a text with 2 or more genres
+        query = """
+        MATCH (t:Text)-[r:HAS_GENRE|HAS_PARENT *2..]->(g:Genre)
+        RETURN t.id
+        """
+        response = conn.execute(query)
+        while response.has_next():
+            text_id = response.get_next()[0]
+            break
+
+        # Build a TEI document for the text
+        doc = TextDocument(conn=conn, text_id=text_id)
+        doc.write(outfile="tests/nested_genre.xml")
 
 
 if __name__ == "__main__":

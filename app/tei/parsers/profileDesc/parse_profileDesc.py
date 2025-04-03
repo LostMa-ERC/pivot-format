@@ -18,3 +18,8 @@ class ProfileDescXML:
     def langUsage(self) -> etree.Element:
         xpath = ".//tei:profileDesc/tei:langUsage"
         return find_node(tree=self.tree, xpath=xpath)
+
+    @property
+    def textClass(self) -> etree.Element:
+        xpath = ".//tei:profileDesc/tei:textClass"
+        return find_node(tree=self.tree, xpath=xpath)

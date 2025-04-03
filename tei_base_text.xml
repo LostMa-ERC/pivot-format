@@ -19,7 +19,9 @@
             </availability>
          </publicationStmt>
          <sourceDesc>
-            <title type="full"/>
+            <bibl>
+               <title type="full"/>
+            </bibl>
             <listWit>
                <!-- witnesses of text -->
             </listWit>
@@ -37,6 +39,7 @@
       <profileDesc>
          <creation/>
          <langUsage/>
+         <textClass/>
       </profileDesc>
    </teiHeader>
    <text>

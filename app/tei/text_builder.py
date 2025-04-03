@@ -1,16 +1,16 @@
 from datetime import datetime
 
+from kuzu import Connection
 from lxml import etree
 
 from app.tei.builders.text import (
-    build_titleStmt,
     build_encondingDesc,
     build_profileDesc,
     build_sourceDesc,
+    build_titleStmt,
 )
-from app.tei.parsers.text_tree import TextXMLTree
 from app.tei.data.text.language import fetch_language
-from kuzu import Connection
+from app.tei.parsers.text_tree import TextXMLTree
 
 
 class TextDocument:
@@ -33,7 +33,6 @@ class TextDocument:
         # Build the encodingDesc
         build_encondingDesc(
             conn=self.conn,
-            text_id=text_id,
             root=self.parser.encodingDesc,
         )
         # Build the sourceDesc

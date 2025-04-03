@@ -10,6 +10,11 @@ class SourceDescXML:
         self.tree = tree
 
     @property
+    def bibl(self) -> etree.Element:
+        xpath = ".//tei:sourceDesc/tei:bibl"
+        return find_node(tree=self.tree, xpath=xpath)
+
+    @property
     def title(self) -> etree.Element:
-        xpath = ".//tei:sourceDesc/tei:title[@type='full']"
+        xpath = ".//tei:sourceDesc/tei:bibl/tei:title[@type='full']"
         return find_node(tree=self.tree, xpath=xpath)

@@ -15,6 +15,9 @@ from app.tei.data.text import (
 
 
 def build_sourceDesc(conn: Connection, text_id: int, root: SourceDescXML) -> None:
+    # Set the text's Heurist ID in the bibl node
+    root.bibl.set(XML_ID, f"text_{text_id}")
+
     # Add the main title
     data = fetch_title(conn=conn, id=text_id)
     main = etree.SubElement(root.title, "title", type="main")

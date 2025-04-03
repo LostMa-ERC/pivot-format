@@ -3,11 +3,11 @@ from lxml import etree
 
 from app.tei.constants import XML_ID
 
+# Fetch data needed for the encodingDesc
+from app.tei.data.text.genre import GenreModel, fetch_all_genre_roots
+
 # XML parser for the encodingDesc branch
 from app.tei.parsers.encodingDesc.parse_encodingDesc import EncodingDescXML
-
-# Fetch data needed for the encodingDesc
-from app.tei.data.text.genre import GenreModel, fetch_genres
 
 
 def make_genre_category(parent: etree.Element, genre: GenreModel) -> etree.Element:
@@ -18,7 +18,12 @@ def make_genre_category(parent: etree.Element, genre: GenreModel) -> etree.Eleme
     return category
 
 
-def build_encondingDesc(conn: Connection, text_id: int, root: EncodingDescXML) -> None:
-    parent = root.genre_taxonomy
-    for genre in fetch_genres(conn=conn, id=text_id):
-        parent = make_genre_category(parent=parent, genre=genre)
+def build_encondingDesc(conn: Connection, root: EncodingDescXML) -> None:
+    parent_category = root.genre_taxonomy
+    for family in fetch_all_genre_roots(conn=conn):
+        node = make_genre_category(parent=parent_category, genre=family.root)
+        if family.children:
+            for i in family.children:
+                make_genre_category(parent=node, genre=i)
+
+        # parent = make_genre_category(parent=parent, genre=genre)
