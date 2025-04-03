@@ -13,3 +13,8 @@ class EncodingDescXML:
     def genre_taxonomy(self) -> etree.Element:
         xpath = ".//tei:encodingDesc//tei:category[@xml:id='genre']"
         return find_node(tree=self.tree, xpath=xpath)
+
+    @property
+    def tradition_status_taxonomy(self) -> etree.Element:
+        xpath = ".//tei:encodingDesc//tei:category[@xml:id='traditionStatus']"
+        return find_node(tree=self.tree, xpath=xpath)

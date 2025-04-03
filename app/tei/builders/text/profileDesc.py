@@ -11,6 +11,7 @@ from app.tei.data.text import (
     fetch_language,
     fetch_literary_form_of_a_text,
 )
+from app.tei.data.text.tradition_status import fetch_text_tradition_status
 
 # XML parser for the profileDesc branch
 from app.tei.parsers.profileDesc import ProfileDescXML
@@ -40,6 +41,12 @@ def build_profileDesc(conn: Connection, text_id: int, root: ProfileDescXML) -> N
     _ = etree.SubElement(root.textClass, "catRef", scheme="#form", target=ref)
 
     # Create a catRef for the text's tradition status
+    data = fetch_text_tradition_status(conn=conn, text_id=text_id)
+    if data:
+        ref = f"#{data.xml_id}"
+        _ = etree.SubElement(
+            root.textClass, "catRef", scheme="#traditionStatus", target=ref
+        )
 
     # If the text has a genre, create a catRef for the genre
     # List the names of the genre and its parents as keyword terms

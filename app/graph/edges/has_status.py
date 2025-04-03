@@ -1,18 +1,18 @@
 from app.graph.edges.utils.edge_dataclass import Edge
 from app.graph.edges.utils.from_to_relation import FromToEdgeRelation
 
-HasLangauge = Edge(
-    table_name="HAS_LANGAUGE",
+HasStatus = Edge(
+    table_name="HAS_STATUS",
     relations=[
         FromToEdgeRelation(
             from_node="Text",
-            to_node="Language",
+            to_node="TraditionStatus",
             duckdb_query="""
                 SELECT
                     "H-ID" as "from",
-                    CAST("language_COLUMN TRM-ID" AS INT64) as "to"
+                    CAST("tradition_status TRM-ID" AS INT64) as "to"
                 FROM TextTable
-                WHERE "language_COLUMN TRM-ID" is not null
+                WHERE "tradition_status TRM-ID" is not null
             """,
         )
     ],

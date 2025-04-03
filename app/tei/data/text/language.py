@@ -1,6 +1,6 @@
-from kuzu import Connection
 from typing import Optional
 
+from kuzu import Connection
 from pydantic import BaseModel, Field, computed_field
 
 

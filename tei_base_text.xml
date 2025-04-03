@@ -30,9 +30,6 @@
       <encodingDesc>
          <classDecl>
             <taxonomy>
-               <category xml:id="genre" ref="https://www.wikidata.org/wiki/Q483394">
-                  <catDesc>Genre</catDesc>
-               </category>
                <category xml:id="form" ref="https://www.wikidata.org/wiki/Q4263830">
                   <catDesc>Form</catDesc>
                   <category xml:id="verseForm">
@@ -47,6 +44,12 @@
                   <category xml:id="unknownForm">
                      <catDesc>unknown</catDesc>
                   </category>
+               </category>
+               <category xml:id="traditionStatus">
+                  <catDesc>Tradition status</catDesc>
+               </category>
+               <category xml:id="genre" ref="https://www.wikidata.org/wiki/Q483394">
+                  <catDesc>Genre</catDesc>
                </category>
             </taxonomy>
          </classDecl>
