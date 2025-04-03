@@ -1,32 +1,33 @@
-from app.graph.nodes import Metadata, Node
+from app.graph.nodes.utils.node_class import Node
+from app.graph.nodes.utils.property_metadata import PropertyMetadata
 
 Story = Node(
     table_name="Story",
     pk="id",
     metadata=[
-        Metadata(
+        PropertyMetadata(
             label="id",
             col="H-ID",
             type="INT",
         ),
-        Metadata(
+        PropertyMetadata(
             label="name",
             col="preferred_name",
             type="STRING",
         ),
-        Metadata(
+        PropertyMetadata(
             label="alternative_names",
             type="STRING[]",
         ),
-        Metadata(
+        PropertyMetadata(
             label="matter",
             type="STRING",
         ),
-        Metadata(
+        PropertyMetadata(
             label="peripheral",
             type="STRING",
         ),
-        Metadata(
+        PropertyMetadata(
             label="described_at_URL",
             type="STRING[]",
         ),

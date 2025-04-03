@@ -1,13 +1,9 @@
 import kuzu
 import duckdb
 
-from app.graph.edges import EdgeBuilder
-from app.graph.nodes import NodeBuilder
+from app.graph.edges import create_all_edges
+from app.graph.nodes import create_all_nodes
 from app import KUZU_DB, HEURIST_DB
-from app.graph.builders import create_all_edges, create_all_nodes
-
-EdgeBuilder
-NodeBuilder
 
 
 def build_graph_from_defaults(kconn: kuzu.Connection | None = None) -> kuzu.Connection:

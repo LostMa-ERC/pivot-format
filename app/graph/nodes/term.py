@@ -1,23 +1,25 @@
-from app.graph.nodes import Metadata, Node
+from app.graph.nodes.utils.node_class import Node
+from app.graph.nodes.utils.property_metadata import PropertyMetadata
+
 
 TERM_METADATA = [
-    Metadata(
+    PropertyMetadata(
         label="id",
         type="INT",
     ),
-    Metadata(
+    PropertyMetadata(
         label="name",
         type="STRING",
     ),
-    Metadata(
+    PropertyMetadata(
         label="code",
         type="STRING",
     ),
-    Metadata(
+    PropertyMetadata(
         label="description",
         type="STRING",
     ),
-    Metadata(
+    PropertyMetadata(
         label="url",
         type="STRING",
     ),

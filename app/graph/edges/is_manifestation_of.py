@@ -1,9 +1,11 @@
-from app.graph.edges import Edge, EdgeRelation
+from app.graph.edges.utils.edge_dataclass import Edge
+from app.graph.edges.utils.from_to_relation import FromToEdgeRelation
+
 
 WitnessIsManifestationOf = Edge(
     table_name="IS_MANIFESTATION_OF",
     relations=[
-        EdgeRelation(
+        FromToEdgeRelation(
             from_node="Witness",
             to_node="Text",
             duckdb_query="""

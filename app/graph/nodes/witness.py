@@ -1,61 +1,63 @@
-from app.graph.nodes import Metadata, Node
+from app.graph.nodes.utils.node_class import Node
+from app.graph.nodes.utils.property_metadata import PropertyMetadata
+
 
 Witness = Node(
     table_name="Witness",
     pk="id",
     metadata=[
-        Metadata(
+        PropertyMetadata(
             label="id",
             col="H-ID",
             type="INT",
         ),
-        Metadata(
+        PropertyMetadata(
             label="is_unobserved",
             type="BOOLEAN",
         ),
-        Metadata(
+        PropertyMetadata(
             label="hypothesis",
             col="claim_freetext",
             type="STRING",
         ),
-        Metadata(
+        PropertyMetadata(
             label="siglum",
             col="preferred_siglum",
             type="STRING",
         ),
-        Metadata(
+        PropertyMetadata(
             label="alternative_sigla",
             type="STRING[]",
         ),
-        Metadata(
+        PropertyMetadata(
             label="status_witness",
             type="STRING",
         ),
-        Metadata(
+        PropertyMetadata(
             label="status_note",
             col="status_notes",
             type="STRING",
         ),
-        Metadata(
+        PropertyMetadata(
             label="is_excerpt",
             type="BOOLEAN",
         ),
-        Metadata(
+        PropertyMetadata(
             label="creation_date",
             col="date_of_creation",
             temporal=True,
         ),
-        Metadata(
+        PropertyMetadata(
             label="creation_date_certainty",
             col="date_of_creation_certainty",
             type="STRING",
         ),
-        Metadata(
+        PropertyMetadata(
             label="creation_date_freetext",
             col="date_freetext",
             type="STRING",
         ),
-        Metadata(
+        PropertyMetadata(
             label="described_at_URL",
             type="STRING[]",
         ),

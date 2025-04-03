@@ -1,9 +1,11 @@
-from app.graph.edges import Edge, EdgeRelation
+from app.graph.edges.utils.edge_dataclass import Edge
+from app.graph.edges.utils.from_to_relation import FromToEdgeRelation
+
 
 IsPartOfStoryverse = Edge(
     table_name="IS_PART_OF_STORYVERSE",
     relations=[
-        EdgeRelation(
+        FromToEdgeRelation(
             from_node="Story",
             to_node="Storyverse",
             duckdb_query="""
@@ -14,7 +16,7 @@ IsPartOfStoryverse = Edge(
                 WHERE "is_part_of_storyverse H-ID" != []
             """,
         ),
-        EdgeRelation(
+        FromToEdgeRelation(
             from_node="Storyverse",
             to_node="Storyverse",
             duckdb_query="""

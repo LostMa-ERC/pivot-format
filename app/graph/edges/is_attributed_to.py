@@ -1,9 +1,11 @@
-from app.graph.edges import Edge, EdgeRelation
+from app.graph.edges.utils.edge_dataclass import Edge
+from app.graph.edges.utils.from_to_relation import FromToEdgeRelation
+
 
 IsAttributedTo = Edge(
     table_name="IS_ATTRIBUTED_TO",
     relations=[
-        EdgeRelation(
+        FromToEdgeRelation(
             from_node="Text",
             to_node="Person",
             duckdb_query="""

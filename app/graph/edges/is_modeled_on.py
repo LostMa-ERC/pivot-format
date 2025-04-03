@@ -1,9 +1,11 @@
-from app.graph.edges import Edge, EdgeRelation
+from app.graph.edges.utils.edge_dataclass import Edge
+from app.graph.edges.utils.from_to_relation import FromToEdgeRelation
+
 
 IsModeledOn = Edge(
     table_name="IS_MODELED_ON",
     relations=[
-        EdgeRelation(
+        FromToEdgeRelation(
             from_node="Story",
             to_node="Story",
             duckdb_query="""

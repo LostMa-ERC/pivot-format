@@ -1,105 +1,107 @@
-from app.graph.nodes import Metadata, Node
+from app.graph.nodes.utils.node_class import Node
+from app.graph.nodes.utils.property_metadata import PropertyMetadata
+
 
 Text = Node(
     table_name="Text",
     pk="id",
     metadata=[
-        Metadata(
+        PropertyMetadata(
             label="id",
             col="H-ID",
             type="INT",
         ),
-        Metadata(
+        PropertyMetadata(
             label="name",
             col="preferred_name",
             type="STRING",
         ),
-        Metadata(
+        PropertyMetadata(
             label="language",
             col="language_COLUMN",
             type="STRING",
         ),
-        Metadata(
+        PropertyMetadata(
             label="form",
             col="literary_form",
             type="STRING",
         ),
-        Metadata(
+        PropertyMetadata(
             label="is_hypothetical",
             type="BOOLEAN",
         ),
-        Metadata(
+        PropertyMetadata(
             label="hypothesis",
             col="claim_freetext",
             type="STRING",
         ),
-        Metadata(
+        PropertyMetadata(
             label="alternative_names",
             type="STRING[]",
         ),
-        Metadata(
+        PropertyMetadata(
             label="is_peripheral",
             col="peripheral",
             type="BOOLEAN",
         ),
-        Metadata(
+        PropertyMetadata(
             label="length",
             type="FLOAT",
         ),
-        Metadata(
+        PropertyMetadata(
             label="length_freetext",
             type="STRING",
         ),
-        Metadata(
+        PropertyMetadata(
             label="verse_type",
             type="STRING",
         ),
-        Metadata(
+        PropertyMetadata(
             label="rhyme_type",
             type="STRING",
         ),
-        Metadata(
+        PropertyMetadata(
             label="stanza_type",
             col="Stanza_type",
             type="STRING",
         ),
-        Metadata(
+        PropertyMetadata(
             label="tradition_status",
             type="STRING",
         ),
-        Metadata(
+        PropertyMetadata(
             label="has_lost_older_version",
             type="BOOLEAN",
         ),
-        Metadata(
+        PropertyMetadata(
             label="lost_older_version_freetext",
             col="ancient_translations_freetext",
             type="STRING",
         ),
-        Metadata(
+        PropertyMetadata(
             label="rewritings_freetext",
             type="STRING",
         ),
-        Metadata(
+        PropertyMetadata(
             label="note",
             type="STRING",
         ),
-        Metadata(
+        PropertyMetadata(
             label="creation_date",
             col="date_of_creation",
             temporal=True,
         ),
-        Metadata(
+        PropertyMetadata(
             label="creation_date_certainty",
             col="date_of_creation_certainty",
             type="STRING",
         ),
-        Metadata(
+        PropertyMetadata(
             label="creation_date_freetext",
             col="date_freetext",
             type="STRING",
         ),
-        Metadata(
+        PropertyMetadata(
             label="described_at_URL",
             type="STRING[]",
         ),
