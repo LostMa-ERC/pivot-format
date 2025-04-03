@@ -4,8 +4,8 @@ import duckdb
 
 import kuzu
 from app import HEURIST_DB
-from app.graph.builders import ALL_NODES, create_all_edges, create_all_nodes
-from app.graph.nodes import NodeBuilder
+from app.graph.edges import create_all_edges
+from app.graph.nodes import NodeBuilder, create_all_nodes, ALL_NODES
 from app.graph.nodes.story import Story
 from app.graph.nodes.storyverse import Storyverse
 

@@ -1,5 +1,5 @@
 import unittest
-from app.graph.builders import create_all_nodes
+from app.graph.nodes import create_all_nodes
 from app import HEURIST_DB
 import duckdb
 import kuzu
