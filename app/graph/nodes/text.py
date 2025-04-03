@@ -1,7 +1,6 @@
 from app.graph.nodes.utils.node_class import Node
 from app.graph.nodes.utils.property_metadata import PropertyMetadata
 
-
 Text = Node(
     table_name="Text",
     pk="id",

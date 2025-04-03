@@ -9,6 +9,7 @@ from app.tei.data.text import (
     fetch_creation_date,
     fetch_direct_genre,
     fetch_language,
+    fetch_literary_form_of_a_text,
 )
 
 # XML parser for the profileDesc branch
@@ -16,12 +17,14 @@ from app.tei.parsers.profileDesc import ProfileDescXML
 
 
 def build_profileDesc(conn: Connection, text_id: int, root: ProfileDescXML) -> None:
+    # --- CREATION ---
     # Add date to creation
     data = fetch_creation_date(conn=conn, id=text_id)
     attrs = {"notBefore": data.notBefore, "notAfter": data.notAfter, "cert": data.cert}
     node = etree.SubElement(root.creation, "date", attrib=attrs)
     node.text = data.date_freetext
 
+    # --- LANGUSAGE ---
     # Add language to langUsage
     data = fetch_language(conn=conn, id=text_id)
     attrs = {}
@@ -30,11 +33,20 @@ def build_profileDesc(conn: Connection, text_id: int, root: ProfileDescXML) -> N
     node = etree.SubElement(root.langUsage, "language", attrib=attrs)
     node.text = data.description
 
-    # If the text has a genre, add a catRef node to textClass
+    # --- TEXTCLASS ---
+    # Create a catRef for the text's literary form
+    label = fetch_literary_form_of_a_text(conn=conn, text_id=text_id)
+    ref = f"#{label}Form"
+    _ = etree.SubElement(root.textClass, "catRef", scheme="#form", target=ref)
+
+    # Create a catRef for the text's tradition status
+
+    # If the text has a genre, create a catRef for the genre
+    # List the names of the genre and its parents as keyword terms
     data = fetch_direct_genre(conn=conn, text_id=text_id)
     if data:
         ref = f"#{data.xml_id}"
-        _ = etree.SubElement(root.textClass, "catRef", target=ref, scheme="#genre")
+        _ = etree.SubElement(root.textClass, "catRef", scheme="#genre", target=ref)
 
         # Create a list of the keywords of the genres associated with the text
         keywords = etree.SubElement(root.textClass, "keywords")
