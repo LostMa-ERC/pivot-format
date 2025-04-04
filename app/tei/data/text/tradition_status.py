@@ -3,6 +3,9 @@ from typing import Optional
 from kuzu import Connection
 from pydantic import BaseModel, Field, computed_field
 
+from app.graph.edges import HasStatus
+from app.graph.nodes import Text, TraditionStatus
+
 
 class StatusModel(BaseModel):
     id: Optional[int] = Field(default=None)
@@ -22,7 +25,9 @@ class StatusModel(BaseModel):
 
 def fetch_text_tradition_status(conn: Connection, text_id: int) -> StatusModel | None:
     query = f"""
-    MATCH (t:Text)-[r:HAS_STATUS]->(s:TraditionStatus) WHERE t.id = {text_id} RETURN s
+    MATCH (t:{Text.node_label})-[r:{HasStatus.edge_label}]
+        ->(s:{TraditionStatus.node_label})
+    WHERE t.id = {text_id} RETURN s
     """
     response = conn.execute(query)
     while response.has_next():
@@ -31,7 +36,7 @@ def fetch_text_tradition_status(conn: Connection, text_id: int) -> StatusModel |
 
 
 def fetch_all_tradition_statuses(conn: Connection) -> list[StatusModel]:
-    query = "MATCH (ts:TraditionStatus) RETURN ts"
+    query = f"MATCH (ts:{TraditionStatus.node_label}) RETURN ts"
     response = conn.execute(query)
     statuses = []
     while response.has_next():

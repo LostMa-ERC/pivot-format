@@ -1,101 +1,97 @@
 import unittest
 
-import duckdb
-
 import kuzu
-from app.graph.edges import EdgeBuilder
-from app.graph.edges.has_genre import TextHasGenre
-from app.graph.edges.has_parent_genre import GenreHasParent
-from app.graph.nodes.genre import Genre
+
+CREATE_GENRE_TABLE = """
+CREATE NODE TABLE Genre (id INT, name STRING, PRIMARY KEY(id));
+"""
+
+CREATE_TEXT_TABLE = """
+CREATE NODE TABLE Text (id INT, name STRING, PRIMARY KEY (id));
+"""
+
+CREATE_EDGE_TABLES = """
+CREATE REL TABLE HAS_GENRE (FROM Text TO Genre);
+CREATE REL TABLE HAS_PARENT (FROM Genre TO Genre);
+"""
+
+INSERT_NODES = """
+CREATE
+(:Text {id: 1, name: 'example text'}),
+(:Genre {id: 1, name: 'grandparent'}),
+(:Genre {id: 2, name: 'parent'}),
+(:Genre {id: 3, name: 'child1'}),
+(:Genre {id: 4, name: 'child2'}),
+(:Genre {id: 5, name: 'grandchild'}),
+(:Genre {id: 6, name: 'orphan'})
+"""
+
+INSERT_EDGES = """
+MATCH (t:Text {id:1})
+MATCH (g1:Genre {id:1})
+MATCH (g2:Genre {id:2})
+MATCH (g3:Genre {id:3})
+MATCH (g4:Genre {id:4})
+MATCH (g5:Genre {id:5})
+CREATE (t)-[:HAS_GENRE]->(g5)
+CREATE (g5)-[:HAS_PARENT]->(g4)
+CREATE (g4)-[:HAS_PARENT]->(g2)
+CREATE (g3)-[:HAS_PARENT]->(g2)
+CREATE (g2)-[:HAS_PARENT]->(g1)
+"""
 
 
-class Test(unittest.TestCase):
+class TestKuzuCypherQuery(unittest.TestCase):
 
     def setUp(self):
         # Connect to an in-memory Kuzu database
         db = kuzu.Database()
         self.conn = kuzu.Connection(db)
 
-        # Create and insert a node for Text
-        create_stmt = """
-        CREATE NODE TABLE Text (id INT, name STRING, PRIMARY KEY (id))
-        """
-        self.conn.execute(create_stmt)
-        df = duckdb.sql("VALUES (1, 'text')").pl()
-        self.conn.execute("COPY Text FROM df")
+    def test_family_group_collection(self):
+        self.conn.execute(CREATE_GENRE_TABLE)
+        self.conn.execute(CREATE_TEXT_TABLE)
+        self.conn.execute(CREATE_EDGE_TABLES)
+        self.conn.execute(INSERT_NODES)
+        self.conn.execute(INSERT_EDGES)
 
-        # Create a node table for Genre
-        self.conn.execute(Genre.create_statement)
-
-        # Insert genre nodes
+        # Find the root of all family trees and list its family members
+        # Return the family groups with the largest being the first result row
         query = """
-VALUES
-    (5, 'child', [], Null, []),
-    (4, 'parent', [], Null, []),
-    (3, 'grandparent', [], Null, []),
-    (2, 'cousin', [], Null, []),
-    (1, 'aunt', [], Null, [])
-"""
-        df = duckdb.sql(query).pl()
-        self.conn.execute(f"COPY {Genre.table_name} FROM df")
-
-        # Create edge table
-        create_stmt = EdgeBuilder.compose_create_statement(edge=GenreHasParent)
-        self.conn.execute(create_stmt)
-
-        # Insert edge data
-        query = """
-VALUES
-    (5, 4),
-    (4, 3),
-    (2, 1)
-"""
-        df = duckdb.sql(query).pl()
-        self.conn.execute(f"COPY {GenreHasParent.table_name} FROM df")
-
-        # Create and insert a genre-text edge
-        create_stmt = EdgeBuilder.compose_create_statement(edge=TextHasGenre)
-        self.conn.execute(create_stmt)
-        df = duckdb.sql("VALUES (1, 5)").pl()
-        self.conn.execute(f"COPY {TextHasGenre.table_name} FROM df")
-        del df
-
-        return super().setUp()
-
-    def test_result_ordering(self):
-        query = f"""
-        MATCH (child:Genre)-[r:{GenreHasParent.table_name}]->(parent:Genre)
-        RETURN child, parent
+        MATCH path=(child:Genre)-[r:HAS_PARENT *0..]->(parent:Genre)
+        WHERE NOT (parent)-[:HAS_PARENT]->()
+        WITH parent as parent, collect(child) as family, count(child) as size
+        RETURN parent, family
+        ORDER BY size DESC
         """
-        rows = []
-        result = self.conn.execute(query)
-        while result.has_next():
-            rows.append(result.get_next()[0])
+        rows = self.conn.execute(query).get_as_pl().rows()
+        largest_family, smallest_family = rows[0], rows[1]
+        largest_family_eldest, largest_family_members = (
+            largest_family[0],
+            largest_family[1],
+        )
+        smallest_family_eldest, smallest_family_members = (
+            smallest_family[0],
+            smallest_family[1],
+        )
 
-        self.assertEqual(len(rows), 3)
-        self.assertEqual(rows[0]["id"], 5)
-        self.assertEqual(rows[1]["id"], 4)
+        # Affirm that the largest family's parent is 'grandparent'
+        self.assertEqual(largest_family_eldest["name"], "grandparent")
+        # Affirm that the largest family's list of members has 5 nodes
+        self.assertEqual(len(largest_family_members), 5)
+        # Affirm that all the family members' names are what is expected
+        member_names = [i["name"] for i in largest_family_members]
+        self.assertCountEqual(
+            member_names, ["grandparent", "parent", "child1", "child2", "grandchild"]
+        )
 
-    def test_build_tree(self):
-        id = 1
-        ordered_genres = []
-
-        query = f"""
-MATCH (g:Genre)
-    <-[r:{TextHasGenre.table_name}|{GenreHasParent.table_name} *1..]
-    -(t:Text)
-WHERE t.id = {id}
-RETURN g """
-        result = self.conn.execute(query)
-        while result.has_next():
-            ordered_genres.append(result.get_next()[0])
-
-        from pprint import pprint
-
-        pprint(ordered_genres)
-
-    def tearDown(self):
-        return super().tearDown()
+        # Affirm that the smallest family's parent is 'orphan'
+        self.assertEqual(smallest_family_eldest["name"], "orphan")
+        # Affirm that the smallest family's list of members has 1 node
+        self.assertEqual(len(smallest_family_members), 1)
+        # Affirm that the family's members names are what is expected
+        member_names = [i["name"] for i in smallest_family_members]
+        self.assertCountEqual(member_names, ["orphan"])
 
 
 if __name__ == "__main__":

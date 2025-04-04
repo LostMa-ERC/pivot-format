@@ -1,66 +1,65 @@
 from app.graph.nodes.utils.node_class import Node
 from app.graph.nodes.utils.property_metadata import PropertyMetadata
 
-
 Witness = Node(
-    table_name="Witness",
+    node_label="Witness",
     pk="id",
-    metadata=[
+    node_properties=[
         PropertyMetadata(
-            label="id",
-            col="H-ID",
-            type="INT",
+            property_label="id",
+            duckdb_col="H-ID",
+            property_type="INT",
         ),
         PropertyMetadata(
-            label="is_unobserved",
-            type="BOOLEAN",
+            property_label="is_unobserved",
+            property_type="BOOLEAN",
         ),
         PropertyMetadata(
-            label="hypothesis",
-            col="claim_freetext",
-            type="STRING",
+            property_label="hypothesis",
+            duckdb_col="claim_freetext",
+            property_type="STRING",
         ),
         PropertyMetadata(
-            label="siglum",
-            col="preferred_siglum",
-            type="STRING",
+            property_label="siglum",
+            duckdb_col="preferred_siglum",
+            property_type="STRING",
         ),
         PropertyMetadata(
-            label="alternative_sigla",
-            type="STRING[]",
+            property_label="alternative_sigla",
+            property_type="STRING[]",
         ),
         PropertyMetadata(
-            label="status_witness",
-            type="STRING",
+            property_label="status_witness",
+            property_type="STRING",
         ),
         PropertyMetadata(
-            label="status_note",
-            col="status_notes",
-            type="STRING",
+            property_label="status_note",
+            duckdb_col="status_notes",
+            property_type="STRING",
         ),
         PropertyMetadata(
-            label="is_excerpt",
-            type="BOOLEAN",
+            property_label="is_excerpt",
+            property_type="BOOLEAN",
         ),
         PropertyMetadata(
-            label="creation_date",
-            col="date_of_creation",
-            temporal=True,
+            property_label="creation_date",
+            duckdb_col="date_of_creation",
+            is_temporal=True,
         ),
         PropertyMetadata(
-            label="creation_date_certainty",
-            col="date_of_creation_certainty",
-            type="STRING",
+            property_label="creation_date_certainty",
+            duckdb_col="date_of_creation_certainty",
+            property_type="STRING",
         ),
         PropertyMetadata(
-            label="creation_date_freetext",
-            col="date_freetext",
-            type="STRING",
+            property_label="creation_date_freetext",
+            duckdb_col="date_freetext",
+            property_type="STRING",
         ),
         PropertyMetadata(
-            label="described_at_URL",
-            type="STRING[]",
+            property_label="described_at_URL",
+            property_type="STRING[]",
         ),
     ],
-    table="Witness",
+    duckdb_table="Witness",
 )

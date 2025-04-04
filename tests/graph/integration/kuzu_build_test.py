@@ -1,11 +1,11 @@
 import unittest
 
 import duckdb
-
 import kuzu
+
 from app import HEURIST_DB
 from app.graph.edges import create_all_edges
-from app.graph.nodes import NodeBuilder, create_all_nodes, ALL_NODES
+from app.graph.nodes import ALL_NODES, NodeBuilder, create_all_nodes
 from app.graph.nodes.story import Story
 from app.graph.nodes.storyverse import Storyverse
 
@@ -29,7 +29,7 @@ class BuildTest(unittest.TestCase):
             result = self.dconn.sql(node.duckdb_query).count("*").fetchone()
             expected = result[0]
             # Count the number of nodes created in the Kuzu database.
-            query = f"MATCH (n:{node.table_name}) RETURN n"
+            query = f"MATCH (n:{node.node_label}) RETURN n"
             actual = self.kconn.execute(query).get_as_df().shape[0]
             # Assert that all the rows from the DuckDB database were inserted
             # as nodes in the Kuzu database.

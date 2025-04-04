@@ -33,7 +33,7 @@ def fetch_direct_genre(conn: Connection, text_id: int) -> GenreModel | None:
     """
 
     query = f"""
-MATCH (a:Text)-[r:{TextHasGenre.table_name}]->(b:Genre) WHERE a.id = {text_id} RETURN b
+MATCH (a:Text)-[r:{TextHasGenre.edge_label}]->(b:Genre) WHERE a.id = {text_id} RETURN b
     """
     response = conn.execute(query)
     while response.has_next():
@@ -57,7 +57,7 @@ def fetch_all_genres_related_to_text(
 
     query = f"""
 MATCH (a:Text)
--[r:{TextHasGenre.table_name}|{GenreHasParent.table_name} *1..]
+-[r:{TextHasGenre.edge_label}|{GenreHasParent.edge_label} *1..]
 ->(b:Genre) WHERE a.id = {text_id} RETURN b
 """
     response = conn.execute(query)

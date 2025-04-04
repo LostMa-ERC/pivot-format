@@ -1,9 +1,10 @@
 from pathlib import Path
-from kuzu import Connection, QueryResult
-from duckdb import DuckDBPyConnection
 
-from .from_to_relation import FromToEdgeRelation
+from duckdb import DuckDBPyConnection
+from kuzu import Connection, QueryResult
+
 from .edge_dataclass import Edge
+from .from_to_relation import FromToEdgeRelation
 
 
 class EdgeBuilder:
@@ -16,46 +17,35 @@ class EdgeBuilder:
         pairs = [f"FROM {r.from_node} TO {r.to_node}" for r in edge.relations]
         props = pairs + edge.properties
         return f"""
-CREATE REL TABLE IF NOT EXISTS {edge.table_name} (
+CREATE REL TABLE IF NOT EXISTS {edge.edge_label} (
     {', '.join(props)}
 )
 """
 
-    def __call__(
-        self, edge: Edge, drop: bool = False, fill_null: bool = True
-    ) -> QueryResult:
+    def __call__(self, edge: Edge) -> QueryResult:
         # Build the edge table in the connected Kuzu database
-        self.create_rel_table(edge=edge, drop=drop)
+        creation_stmt = self.compose_create_statement(edge=edge)
+        self.kconn.execute(f"DROP TABLE IF EXISTS {edge.edge_label}")
+        self.kconn.execute(creation_stmt)
 
-        # For each relation (from-to node pair) in the edge table,
-        # select its data from the DuckDB database
-        for rel in edge.relations:
+        # For each relation (from-to node pair) in the edge table, select its
+        # data from the DuckDB database and copy it into the edge table
+        for from_to_relation in edge.relations:
             self.copy_data_into_table(
-                rel=rel,
+                from_to_relation=from_to_relation,
                 edge=edge,
-                fill_null=fill_null,
             )
 
-        query = f"MATCH ()-[r:{edge.table_name}]->() RETURN r"
+        query = f"MATCH ()-[r:{edge.edge_label}]->() RETURN r"
         return self.kconn.execute(query)
-
-    def create_rel_table(self, edge: Edge, drop: bool) -> QueryResult:
-        creation_stmt = self.compose_create_statement(edge=edge)
-        if drop:
-            self.kconn.execute(f"DROP TABLE IF EXISTS {edge.table_name}")
-        r = self.kconn.execute(creation_stmt)
-        return r
 
     def copy_data_into_table(
         self,
-        rel: FromToEdgeRelation,
+        from_to_relation: FromToEdgeRelation,
         edge: Edge,
-        fill_null: bool,
     ):
         # Get the edge data from DuckDB
-        df = self.dconn.sql(rel.duckdb_query).pl()
-        if fill_null:
-            df.fill_null("")
+        df = self.dconn.sql(from_to_relation.sql_query_for_selecting_data).pl()
 
         # Write the dataframe to a temporary parquet file
         tmp = Path("tmp.parquet")
@@ -65,12 +55,12 @@ CREATE REL TABLE IF NOT EXISTS {edge.table_name} (
         try:
             self.kconn.execute(
                 f"""
-    COPY {edge.table_name} FROM '{tmp}'
-    (from='{rel.from_node}', to='{rel.to_node}')
+    COPY {edge.edge_label} FROM '{tmp}'
+    (from='{from_to_relation.from_node}', to='{from_to_relation.to_node}')
     """
             )
         except Exception as e:
-            print(edge.table_name)
+            print(edge.edge_label)
             print(df)
             raise e
 

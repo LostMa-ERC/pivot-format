@@ -2,9 +2,9 @@ import unittest
 
 from lxml import etree
 
-from tests.tei.integration import TEIIntegrationTest
 from app.tei.builders.text import build_titleStmt
 from app.tei.parsers.text_tree import TextXMLTree
+from tests.tei.integration import TEIIntegrationTest
 
 
 class TitleStmtBuilderGMHTest(TEIIntegrationTest):

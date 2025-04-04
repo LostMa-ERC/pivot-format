@@ -1,22 +1,14 @@
 import unittest
-import shutil
 
-from pathlib import Path
+import kuzu
 
-from app.cli.build_commands.build_graph import build_graph
-from app import KUZU_DB
+from app.cli.build_commands.build_graph import build_graph_from_defaults
 
 
 class BuildGraphTest(unittest.TestCase):
-    def setUp(self):
-        if Path(KUZU_DB).is_dir():
-            shutil.rmtree(KUZU_DB)
-        return super().setUp()
 
     def test_command(self):
+        db = kuzu.Database()
+        conn = kuzu.Connection(db)
         with self.assertNoLogs():
-            build_graph()
-
-    def tearDown(self):
-        shutil.rmtree(KUZU_DB)
-        return super().tearDown()
+            build_graph_from_defaults(kconn=conn)

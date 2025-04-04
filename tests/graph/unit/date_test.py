@@ -1,9 +1,11 @@
 import unittest
-from app.graph.nodes import create_all_nodes
-from app import HEURIST_DB
+from datetime import date
+
 import duckdb
 import kuzu
-from datetime import date
+
+from app import HEURIST_DB
+from app.graph.nodes import create_all_nodes
 
 
 class Test(unittest.TestCase):

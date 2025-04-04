@@ -1,8 +1,8 @@
 import unittest
 
-from tests.tei.integration import TEIIntegrationTest
 from app.tei.builders.text import build_sourceDesc
 from app.tei.parsers.text_tree import TextXMLTree
+from tests.tei.integration import TEIIntegrationTest
 
 
 class TitleStmtBuilderGMHTest(TEIIntegrationTest):

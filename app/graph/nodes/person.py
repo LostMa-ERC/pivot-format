@@ -1,36 +1,35 @@
 from app.graph.nodes.utils.node_class import Node
 from app.graph.nodes.utils.property_metadata import PropertyMetadata
 
-
 Person = Node(
-    table_name="Person",
+    node_label="Person",
     pk="id",
-    metadata=[
+    node_properties=[
         PropertyMetadata(
-            label="id",
-            col="H-ID",
-            type="INT",
+            property_label="id",
+            duckdb_col="H-ID",
+            property_type="INT",
         ),
         PropertyMetadata(
-            label="family_name",
-            col="family_name",
-            type="STRING",
+            property_label="family_name",
+            duckdb_col="family_name",
+            property_type="STRING",
         ),
         PropertyMetadata(
-            label="given_name",
-            col="given_names",
-            type="STRING",
+            property_label="given_name",
+            duckdb_col="given_names",
+            property_type="STRING",
         ),
         PropertyMetadata(
-            label="alternative_names",
-            col="alternative_names",
-            type="STRING[]",
+            property_label="alternative_names",
+            duckdb_col="alternative_names",
+            property_type="STRING[]",
         ),
         PropertyMetadata(
-            label="urls",
-            col="described_at_URL",
-            type="STRING[]",
+            property_label="urls",
+            duckdb_col="described_at_URL",
+            property_type="STRING[]",
         ),
     ],
-    table="Person",
+    duckdb_table="Person",
 )

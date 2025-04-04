@@ -3,24 +3,24 @@ from app.graph.nodes.utils.property_metadata import PropertyMetadata
 
 TERM_METADATA = [
     PropertyMetadata(
-        label="id",
-        type="INT",
+        property_label="id",
+        property_type="INT",
     ),
     PropertyMetadata(
-        label="name",
-        type="STRING",
+        property_label="name",
+        property_type="STRING",
     ),
     PropertyMetadata(
-        label="code",
-        type="STRING",
+        property_label="code",
+        property_type="STRING",
     ),
     PropertyMetadata(
-        label="description",
-        type="STRING",
+        property_label="description",
+        property_type="STRING",
     ),
     PropertyMetadata(
-        label="url",
-        type="STRING",
+        property_label="url",
+        property_type="STRING",
     ),
 ]
 
@@ -28,9 +28,9 @@ TERM_METADATA = [
 # 9476 is the parent vocabulary ID for the Tradition Status vocabulary.
 # If this changes, change the end of the DuckDB SQL query.
 TraditionStatus = Node(
-    table_name="TraditionStatus",
+    node_label="TraditionStatus",
     pk="id",
-    metadata=TERM_METADATA,
+    node_properties=TERM_METADATA,
     duckdb_query="""
     SELECT
         trm_ID as id,
@@ -45,9 +45,9 @@ TraditionStatus = Node(
 
 
 Language = Node(
-    table_name="Language",
+    node_label="Language",
     pk="id",
-    metadata=TERM_METADATA,
+    node_properties=TERM_METADATA,
     duckdb_query="""
     SELECT
         trm_ID as id,

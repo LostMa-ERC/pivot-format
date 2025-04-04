@@ -1,11 +1,11 @@
 import unittest
 
 import duckdb
-
 import kuzu
+
 from app import HEURIST_DB
-from app.graph.edges.utils.builder import EdgeBuilder
 from app.graph.edges.is_part_of_storyverse import IsPartOfStoryverse
+from app.graph.edges.utils.builder import EdgeBuilder
 from app.graph.nodes import NodeBuilder
 from app.graph.nodes.story import Story
 from app.graph.nodes.storyverse import Storyverse

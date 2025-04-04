@@ -1,29 +1,28 @@
 from app.graph.nodes.utils.node_class import Node
 from app.graph.nodes.utils.property_metadata import PropertyMetadata
 
-
 Storyverse = Node(
-    table_name="Storyverse",
+    node_label="Storyverse",
     pk="id",
-    metadata=[
+    node_properties=[
         PropertyMetadata(
-            label="id",
-            col="H-ID",
-            type="INT",
+            property_label="id",
+            duckdb_col="H-ID",
+            property_type="INT",
         ),
         PropertyMetadata(
-            label="name",
-            col="preferred_name",
-            type="STRING",
+            property_label="name",
+            duckdb_col="preferred_name",
+            property_type="STRING",
         ),
         PropertyMetadata(
-            label="alternative_names",
-            type="STRING[]",
+            property_label="alternative_names",
+            property_type="STRING[]",
         ),
         PropertyMetadata(
-            label="described_at_URL",
-            type="STRING[]",
+            property_label="described_at_URL",
+            property_type="STRING[]",
         ),
     ],
-    table="Storyverse",
+    duckdb_table="Storyverse",
 )

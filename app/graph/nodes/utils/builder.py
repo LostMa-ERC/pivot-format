@@ -1,5 +1,5 @@
-from kuzu import Connection, QueryResult
 from duckdb import DuckDBPyConnection
+from kuzu import Connection, QueryResult
 
 from .node_class import Node
 
@@ -14,7 +14,7 @@ class NodeBuilder:
     ) -> QueryResult:
         # Build the node table in the connected Kuzu database
         if drop:
-            self.kconn.execute(f"DROP TABLE IF EXISTS {node.table_name}")
+            self.kconn.execute(f"DROP TABLE IF EXISTS {node.node_label}")
         self.kconn.execute(node.create_statement)
 
         # Select data from the connected DuckDB database
@@ -28,15 +28,15 @@ class NodeBuilder:
             df = df.fill_null("")
 
         # Insert the DuckDB data into the Kuzu database
-        query = f"COPY {node.table_name} FROM df"
+        query = f"COPY {node.node_label} FROM df"
         try:
             self.kconn.execute(query)
         except Exception as e:
-            print(node.table_name)
+            print(node.node_label)
             print(df)
             print(rel.select("creation_date"))
             raise e
 
         # Fetch the nodes createdin in the Kuzu database
-        query = f"MATCH (n:{node.table_name}) return n"
+        query = f"MATCH (n:{node.node_label}) return n"
         return self.kconn.execute(query)

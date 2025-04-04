@@ -1,14 +1,13 @@
 from app.graph.edges.utils.edge_dataclass import Edge
 from app.graph.edges.utils.from_to_relation import FromToEdgeRelation
 
-
 IsPartOfStoryverse = Edge(
-    table_name="IS_PART_OF_STORYVERSE",
+    edge_label="IS_PART_OF_STORYVERSE",
     relations=[
         FromToEdgeRelation(
             from_node="Story",
             to_node="Storyverse",
-            duckdb_query="""
+            sql_query_for_selecting_data="""
                 SELECT
                     "H-ID" as "from",
                     unnest("is_part_of_storyverse H-ID") as "to"
@@ -19,7 +18,7 @@ IsPartOfStoryverse = Edge(
         FromToEdgeRelation(
             from_node="Storyverse",
             to_node="Storyverse",
-            duckdb_query="""
+            sql_query_for_selecting_data="""
                 SELECT
                     "H-ID" as "from",
                     unnest("member_of_cycle H-ID") as "to"

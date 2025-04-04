@@ -1,14 +1,13 @@
 from app.graph.edges.utils.edge_dataclass import Edge
 from app.graph.edges.utils.from_to_relation import FromToEdgeRelation
 
-
 GenreHasParent = Edge(
-    table_name="HAS_PARENT",
+    edge_label="HAS_PARENT",
     relations=[
         FromToEdgeRelation(
             from_node="Genre",
             to_node="Genre",
-            duckdb_query="""
+            sql_query_for_selecting_data="""
                 SELECT
                     "H-ID" as "from",
                     "parent_genre H-ID" as "to"

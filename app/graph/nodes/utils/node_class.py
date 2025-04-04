@@ -4,32 +4,31 @@ from .property_metadata import PropertyMetadata
 class Node:
     def __init__(
         self,
-        table_name: str,
+        node_label: str,
         pk: str,
-        metadata: list[PropertyMetadata],
+        node_properties: list[PropertyMetadata],
         duckdb_query: str | None = None,
-        table: str | None = None,
+        duckdb_table: str | None = None,
     ):
-        self.table_name = table_name
+        self.node_label = node_label
         self.pk = pk
-        self.metadata = metadata
-        self.table = table
+        self.properties = node_properties
+        self.duckdb_table = duckdb_table
         self.duckdb_query = duckdb_query
-        if not duckdb_query:
-            self.duckdb_query = self.make_duckdb_query()
+        if duckdb_query:
+            self.duckdb_query = duckdb_query
+        else:
+            aliases = ", ".join([m.sql_alias for m in self.properties])
+            self.duckdb_query = f"SELECT {aliases} FROM {self.duckdb_table}"
 
     def list_cypher_props(self) -> list[str]:
-        return [m.cypher_alias for m in self.metadata]
+        return [m.cypher_alias for m in self.properties]
 
     @property
     def create_statement(self) -> str:
         params = self.list_cypher_props() + [f"PRIMARY KEY ({self.pk})"]
         return f"""
-    CREATE NODE TABLE {self.table_name}
+    CREATE NODE TABLE {self.node_label}
     (
         {', '.join(params)}
     )"""
-
-    def make_duckdb_query(self) -> str:
-        aliases = ", ".join([m.sql_alias for m in self.metadata])
-        return f"SELECT {aliases} FROM {self.table}"

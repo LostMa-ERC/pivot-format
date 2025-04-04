@@ -4,21 +4,21 @@ from .constants import CypherTypes
 class PropertyMetadata:
     def __init__(
         self,
-        label: str,
-        col: str | None = None,
-        type: CypherTypes | None = None,
-        temporal: bool = False,
+        property_label: str,
+        property_type: CypherTypes | None = None,
+        duckdb_col: str | None = None,
+        is_temporal: bool = False,
     ):
-        self.label = label
-        if not col:
-            self.duckdb_col = label
+        self.property_label = property_label
+        if not duckdb_col:
+            self.duckdb_col = property_label
         else:
-            self.duckdb_col = col
-        self.temporal = temporal
+            self.duckdb_col = duckdb_col
+        self.is_temporal = is_temporal
         # If the metadata is a Heurist temporal object,
         # create a flat structured data type
-        if temporal:
-            self.type = """STRUCT(
+        if is_temporal:
+            self.property_type = """STRUCT(
 start_earliest DATE,
 start_latest DATE,
 start_prob STRING,
@@ -36,15 +36,15 @@ est_prob STRING,
 est_cert STRING
 )"""
         else:
-            self.type = type
+            self.property_type = property_type
 
     @property
     def cypher_alias(self) -> str:
-        return f"{self.label} {self.type}"
+        return f"{self.property_label} {self.property_type}"
 
     @property
     def sql_alias(self) -> str:
-        if self.temporal:
+        if self.is_temporal:
             s = f"""
 'start_earliest': DATETRUNC('day', CAST({self.duckdb_col}.start.earliest AS TIMESTAMP)),
 'start_latest': DATETRUNC('day', CAST({self.duckdb_col}.start.latest AS TIMESTAMP)),
@@ -64,11 +64,11 @@ est_cert STRING
 """
             return f"""
             CASE WHEN "{self.duckdb_col}" IS NULL THEN NULL ELSE {{{s}}}
-            END AS {self.label}"""
-        elif self.type == "BOOLEAN":
+            END AS {self.property_label}"""
+        elif self.property_type == "BOOLEAN":
             return f"""
 CASE WHEN "{self.duckdb_col}" LIKE 'Yes' THEN True ELSE False
-END AS {self.label}
+END AS {self.property_label}
 """
         else:
-            return f'"{self.duckdb_col}" AS {self.label}'
+            return f'"{self.duckdb_col}" AS {self.property_label}'
