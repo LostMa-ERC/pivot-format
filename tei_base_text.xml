@@ -22,9 +22,7 @@
             <bibl>
                <title type="full"/>
             </bibl>
-            <listWit>
-               <!-- witnesses of text -->
-            </listWit>
+            <listWit/>
          </sourceDesc>
       </fileDesc>
       <encodingDesc>

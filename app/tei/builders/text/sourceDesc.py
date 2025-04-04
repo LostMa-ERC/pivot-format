@@ -1,17 +1,19 @@
-from lxml import etree
 from kuzu import Connection
+from lxml import etree
 
 from app.tei.constants import XML_ID
 
-# XML parser for the sourceDesc branch
-from app.tei.parsers.sourceDesc import SourceDescXML
-
 # Fetch data needed for the sourceDesc
 from app.tei.data.text import (
-    fetch_title,
     fetch_alternative_title,
     fetch_authors,
+    fetch_title,
+    fetch_witnesess_of_a_text,
 )
+from app.tei.data.witness import make_xml_id
+
+# XML parser for the sourceDesc branch
+from app.tei.parsers.fileDesc import SourceDescXML
 
 
 def build_sourceDesc(conn: Connection, text_id: int, root: SourceDescXML) -> None:
@@ -38,3 +40,10 @@ def build_sourceDesc(conn: Connection, text_id: int, root: SourceDescXML) -> Non
             node.set("ref", urls)
         node.text = author.full_name
         root.title.addnext(node)
+
+    # Create a witness node for each of the text's witnesses
+    witness_ids = fetch_witnesess_of_a_text(conn=conn, text_id=text_id)
+    for id in witness_ids:
+        xml_id = make_xml_id(id=id)
+        node = etree.SubElement(root.listWit, "witness")
+        node.set(XML_ID, xml_id)

@@ -18,3 +18,8 @@ class SourceDescXML:
     def title(self) -> etree.Element:
         xpath = ".//tei:sourceDesc/tei:bibl/tei:title[@type='full']"
         return find_node(tree=self.tree, xpath=xpath)
+
+    @property
+    def listWit(self) -> etree.Element:
+        xpath = ".//tei:sourceDesc/tei:listWit"
+        return find_node(tree=self.tree, xpath=xpath)

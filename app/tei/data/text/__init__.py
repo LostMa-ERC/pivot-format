@@ -9,3 +9,4 @@ from .genre import (
 from .language import fetch_language
 from .literary_form import fetch_literary_form_of_a_text
 from .title import fetch_title
+from .witnesses import fetch_witnesess_of_a_text
