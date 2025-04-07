@@ -1,7 +1,6 @@
 import shutil
 from pathlib import Path
 
-import click
 import kuzu
 from rich.progress import (
     BarColumn,
@@ -27,7 +26,7 @@ def get_all_texts(conn: kuzu.Connection) -> list[int]:
     return ids
 
 
-def pivot_all_texts():
+def pivot_all_texts_to_tei():
     if not Path(KUZU_DB).is_dir():
         raise NotADirectoryError()
     # Connect to Kuzu database
@@ -63,8 +62,3 @@ def pivot_all_texts():
             subdir.mkdir(exist_ok=True)
             doc.write(outfile=subdir.joinpath(stem))
             p.advance(t)
-
-
-@click.command("pivot", help="[COMMAND] Pivot all the texts to TEI documents.")
-def pivot_command():
-    pivot_all_texts()

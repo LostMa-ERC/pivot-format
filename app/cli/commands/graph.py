@@ -1,7 +1,6 @@
 import shutil
 from pathlib import Path
 
-import click
 import kuzu
 import rich
 import rich.text
@@ -28,8 +27,3 @@ def build_graph() -> kuzu.Connection:
         build_graph_from_defaults(kconn=kconn)
 
     return kconn
-
-
-@click.command("graph", help="Build the Heurist data into a graph database.")
-def build_graph_command():
-    build_graph()
