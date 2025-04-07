@@ -37,23 +37,24 @@ class TextDocument:
         old_node = find_node(tree=self.parser.tree, xpath=".//tei:encodingDesc")
         old_node.getparent().replace(old_node, new_node)
 
-        # Build the titleStmt
+        # --- fileDesc ---
+        # --- --- titlestmt --- ---
         build_titleStmt(
             conn=self.conn,
             text_id=text_id,
             root=self.parser.titleStmt,
         )
-        # Build the publicationStmt
+        # --- --- publicationStmt --- ---
         node = self.parser.publicationStmt.date
         node.text = datetime.today().strftime("%Y-%m-%d")
 
-        # Build the sourceDesc
+        # --- sourceDesc ---
         build_sourceDesc(
             conn=self.conn,
             text_id=text_id,
             root=self.parser.sourceDesc,
         )
-        # Build the profileDesc
+        # --- profileDesc ---
         build_profileDesc(
             conn=self.conn,
             text_id=text_id,
