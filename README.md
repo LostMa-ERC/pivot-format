@@ -8,7 +8,7 @@ From the relational entities in LostMa's Heurist database, this package (1) tran
 - [Installation](#installation)
 - [Basic Usage](#basic-usage)
 - [Advanced Usage](./docs/README.md)
-- [Development](./docs/Contributor.md)
+- [Development](./docs/CONTRIBUTING.md)
 - [License](#license)
 
 ## Installation
