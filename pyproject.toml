@@ -30,7 +30,7 @@ path = "app/__version__.py"
 allow-direct-references = true
 
 [tool.hatch.build.targets.wheel]
-packages = ["app/", "tests"]
+packages = ["app/", "tests", "base_tei"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests", "app"]
