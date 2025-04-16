@@ -6,8 +6,11 @@ import rich
 import rich.text
 from rich.progress import Progress, SpinnerColumn, TextColumn
 
-from app import HEURIST_DB, KUZU_DB
-from app.graph import build_graph_from_defaults
+from app import CONFIG_DIR, HEURIST_DB, KUZU_DB
+from app.sql_to_graph import (
+    create_kuzu_database_from_config,
+    dump_relational_database_to_config,
+)
 
 
 def build_graph() -> kuzu.Connection:
@@ -24,6 +27,9 @@ def build_graph() -> kuzu.Connection:
             shutil.rmtree(KUZU_DB)
         db = kuzu.Database(KUZU_DB)
         kconn = kuzu.Connection(db)
-        build_graph_from_defaults(kconn=kconn)
+        config = dump_relational_database_to_config(
+            duckdb_file=HEURIST_DB, output_dir=CONFIG_DIR
+        )
+        create_kuzu_database_from_config(config=config, conn=kconn)
 
     return kconn
