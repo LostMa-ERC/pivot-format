@@ -1,5 +1,7 @@
+from .document import Document
 from .genre import Genre
 from .language import Language
+from .part import Part
 from .person import Person
 from .scripta import Scripta
 from .story import Story
@@ -18,4 +20,6 @@ ALL_ENTITIES = [
     TraditionStatus,
     Witness,
     Scripta,
+    Part,
+    Document,
 ]

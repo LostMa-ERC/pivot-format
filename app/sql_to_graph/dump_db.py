@@ -20,6 +20,8 @@ NODES = [
     (entities.TraditionStatus, nodes.TraditionStatus),
     (entities.Witness, nodes.Witness),
     (entities.Scripta, nodes.Scripta),
+    (entities.Part, nodes.Part),
+    (entities.Document, nodes.Document),
 ]
 
 EDGES = [
@@ -32,6 +34,8 @@ EDGES = [
     (relations.IS_MANIFESTATION_OF, edges.IS_MANIFESTATION_OF),
     (relations.IS_MODELED_ON, edges.IS_MODELED_ON),
     (relations.IS_PART_OF, edges.IS_PART_OF),
+    (relations.IS_INSCRIBED_ON, edges.IS_INSCRIBED_ON),
+    (relations.IS_OBSERVED_ON, edges.IS_OBSERVED_ON),
 ]
 
 
@@ -57,7 +61,12 @@ def dump_relational_database_to_config(
         fp = str(
             node_dir.joinpath(f"{graph_node.label}.parquet").relative_to(Path.cwd())
         )
-        conn.sql(sql_entity.query).write_parquet(fp)
+        try:
+            rel = conn.sql(sql_entity.query)
+        except Exception as e:
+            print(sql_entity.query)
+            raise e
+        rel.write_parquet(fp)
 
         # Save the node's cypher queries in the config
         config["nodes"].append(
@@ -77,7 +86,12 @@ def dump_relational_database_to_config(
 
         # For each from-to pair in the edge, write the data to a parquet file
         for selector in sql_relation.selectors:
-            data = conn.sql(selector.query).to_arrow_table()
+            try:
+                rel = conn.sql(selector.query)
+            except Exception as e:
+                print(selector.query)
+                raise e
+            data = rel.to_arrow_table()
             stem = f"{graph_edge.label}_FROM-{selector.from_node}_TO-{selector.to_node}"
             fp = str(edge_dir.joinpath(f"{stem}.parquet").relative_to(Path.cwd()))
             pq.write_table(table=data, where=fp)
