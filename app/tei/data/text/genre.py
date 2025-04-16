@@ -4,8 +4,8 @@ from typing import Generator, Optional
 from kuzu import Connection
 from pydantic import BaseModel, Field, computed_field
 
-from app.graph.edges.has_genre import TextHasGenre
-from app.graph.edges.has_parent_genre import GenreHasParent
+from app.graph.edges.has_genre import HAS_GENRE
+from app.graph.edges.has_parent import HAS_PARENT
 
 
 class GenreModel(BaseModel):
@@ -33,7 +33,7 @@ def fetch_direct_genre(conn: Connection, text_id: int) -> GenreModel | None:
     """
 
     query = f"""
-MATCH (a:Text)-[r:{TextHasGenre.edge_label}]->(b:Genre) WHERE a.id = {text_id} RETURN b
+MATCH (a:Text)-[r:{HAS_GENRE.label}]->(b:Genre) WHERE a.id = {text_id} RETURN b
     """
     response = conn.execute(query)
     while response.has_next():
@@ -57,7 +57,7 @@ def fetch_all_genres_related_to_text(
 
     query = f"""
 MATCH (a:Text)
--[r:{TextHasGenre.edge_label}|{GenreHasParent.edge_label} *1..]
+-[r:{HAS_GENRE.label}|{HAS_PARENT.label} *1..]
 ->(b:Genre) WHERE a.id = {text_id} RETURN b
 """
     response = conn.execute(query)

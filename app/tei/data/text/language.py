@@ -3,7 +3,7 @@ from typing import Optional
 from kuzu import Connection
 from pydantic import BaseModel, Field, computed_field
 
-from app.graph.edges import HasLangauge
+from app.graph.edges import HAS_LANGAUGE
 from app.graph.nodes import Language, Text
 
 
@@ -26,7 +26,7 @@ class LanguageModel(BaseModel):
 def fetch_language(conn: Connection, id: int) -> LanguageModel:
     result = {}
     query = f"""
-MATCH (t:{Text.node_label})-[r:{HasLangauge.edge_label}]-(l:{Language.node_label})
+MATCH (t:{Text.label})-[r:{HAS_LANGAUGE.label}]-(l:{Language.label})
 WHERE t.id = {id} RETURN l
 """
     response = conn.execute(query)

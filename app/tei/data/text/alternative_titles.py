@@ -10,7 +10,7 @@ def fetch_alternative_title(conn: Connection, id: int) -> list[Optional[str]]:
     alternative titles."""
 
     query = f"""
-MATCH (t:{Text.node_label}) WHERE t.id = {id} RETURN t.alternative_names
+MATCH (t:{Text.label}) WHERE t.id = {id} RETURN t.alternative_names
 """
     response = conn.execute(query)
     while response.has_next():

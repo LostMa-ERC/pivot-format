@@ -6,7 +6,7 @@ from app.tei.data.date import DateModel
 
 def fetch_creation_date(conn: Connection, id: int) -> DateModel:
     # Get the rich date metadata
-    query = f"MATCH (t:{Text.node_label}) WHERE t.id = {id} RETURN t"
+    query = f"MATCH (t:{Text.label}) WHERE t.id = {id} RETURN t"
     response = conn.execute(query)
     while response.has_next():
         text = response.get_next()[0]

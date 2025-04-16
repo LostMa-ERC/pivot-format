@@ -1,13 +1,13 @@
 from kuzu import Connection
 
-from app.graph.edges.is_attributed_to import IsAttributedTo
+from app.graph.edges.is_attributed_to import IS_ATTRIBUTED_TO
 from app.tei.data.person import PersonModel
 
 
 def fetch_authors(conn: Connection, id: int) -> list[PersonModel]:
     query = f"""
 MATCH (a:Text)
--[r:{IsAttributedTo.edge_label}]
+-[r:{IS_ATTRIBUTED_TO.label}]
 ->(p:Person) WHERE a.id = {id} RETURN p
 """
     response = conn.execute(query)

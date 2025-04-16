@@ -53,7 +53,7 @@ def make_status_category(parent: etree.Element, status: StatusModel) -> etree.El
     desc = etree.SubElement(category, "desc")
     desc.text = status.description
 
-    if len(status.url) > 1:
+    if status.url and len(status.url) > 1:
         bibl = etree.SubElement(desc, "bibl")
         for url in status.url:
             _ = etree.SubElement(bibl, "ptr", target=url)
