@@ -1,6 +1,7 @@
 from app.graph.nodes.genre import Genre
 from app.graph.nodes.language import Language
 from app.graph.nodes.person import Person
+from app.graph.nodes.scripta import Scripta
 from app.graph.nodes.story import Story
 from app.graph.nodes.storyverse import Storyverse
 from app.graph.nodes.text import Text
@@ -16,4 +17,5 @@ ALL_NODES = [
     Witness,
     Person,
     TraditionStatus,
+    Scripta,
 ]

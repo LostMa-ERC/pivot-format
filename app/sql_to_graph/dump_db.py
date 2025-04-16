@@ -19,6 +19,7 @@ NODES = [
     (entities.Text, nodes.Text),
     (entities.TraditionStatus, nodes.TraditionStatus),
     (entities.Witness, nodes.Witness),
+    (entities.Scripta, nodes.Scripta),
 ]
 
 EDGES = [

@@ -13,6 +13,17 @@ WHERE "language_COLUMN TRM-ID" is not null
 """,
             from_node="Text",
             to_node="Language",
-        )
+        ),
+        Selector(
+            query="""
+SELECT
+    "H-ID" as "from",
+    CAST("language_COLUMN TRM-ID" AS INT64) as "to"
+FROM Scripta
+WHERE "language_COLUMN TRM-ID" is not null
+""",
+            from_node="Scripta",
+            to_node="Language",
+        ),
     ],
 )

@@ -1,6 +1,7 @@
 from .genre import Genre
 from .language import Language
 from .person import Person
+from .scripta import Scripta
 from .story import Story
 from .storyverse import Storyverse
 from .text import Text
@@ -16,4 +17,5 @@ ALL_ENTITIES = [
     Text,
     TraditionStatus,
     Witness,
+    Scripta,
 ]
