@@ -2,10 +2,10 @@ import unittest
 
 from app.tei.builders.text import build_sourceDesc
 from app.tei.parsers.text_tree import TextXMLTree
-from tests.tei.integration import TEIIntegrationTest
+from tests import GraphDepTest
 
 
-class TitleStmtBuilderGMHTest(TEIIntegrationTest):
+class TitleStmtBuilderGMHTest(GraphDepTest):
     maxDiff = None
 
     def test_alternative_title(self):
@@ -18,11 +18,11 @@ class TitleStmtBuilderGMHTest(TEIIntegrationTest):
         MATCH (t:Text) WHERE t.alternative_names <> []
         RETURN t.id
         """
-        response = self.kconn.execute(iterate_texts)
+        response = self.conn.execute(iterate_texts)
         while response.has_next():
             text_id = response.get_next()[0]
             break
-        build_sourceDesc(conn=self.kconn, text_id=text_id, root=root)
+        build_sourceDesc(conn=self.conn, text_id=text_id, root=root)
 
         # Read the created title nodes
         nodes = root.tree.xpath("//title")

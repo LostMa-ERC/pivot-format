@@ -4,10 +4,10 @@ from lxml import etree
 
 from app.tei.builders.text import build_titleStmt
 from app.tei.parsers.text_tree import TextXMLTree
-from tests.tei.integration import TEIIntegrationTest
+from tests import GraphDepTest
 
 
-class TitleStmtBuilderGMHTest(TEIIntegrationTest):
+class TitleStmtBuilderGMHTest(GraphDepTest):
     maxDiff = None
 
     def test_gmh_respStmt(self):
@@ -16,16 +16,16 @@ class TitleStmtBuilderGMHTest(TEIIntegrationTest):
 
         # Build a TEI document for a Middle High German text
         iterate_texts = """
-        MATCH (t:Text)-[r:HAS_LANGAUGE]-(l:Language)
+        MATCH (t:Text)-[r:HAS_LANGUAGE]-(l:Language)
         WHERE l.code = 'gmh'
         RETURN t.id
         """
-        response = self.kconn.execute(iterate_texts)
+        response = self.conn.execute(iterate_texts)
         while response.has_next():
             text_id = response.get_next()[0]
             break
 
-        build_titleStmt(conn=self.kconn, text_id=text_id, root=root)
+        build_titleStmt(conn=self.conn, text_id=text_id, root=root)
 
         # Read the created respStmt branch
         node = root.respStmt

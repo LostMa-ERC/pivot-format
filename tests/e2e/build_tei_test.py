@@ -1,18 +1,11 @@
 import unittest
 
-import kuzu
-
-from app.graph import build_graph_from_defaults
-from app.graph.edges import WitnessIsManifestationOf
+from app.graph.edges import IS_MANIFESTATION_OF
 from app.tei.text_builder import TextDocument
+from tests import GraphDepTest
 
 
-class TEITest(unittest.TestCase):
-    def setUp(self):
-        db = kuzu.Database()
-        self.conn = kuzu.Connection(db)
-        build_graph_from_defaults(kconn=self.conn)
-        return super().setUp()
+class TEITest(GraphDepTest):
 
     def test_text_with_author(self):
         # Get a text with 1 or more authors, who have a reference URL
@@ -48,7 +41,7 @@ class TEITest(unittest.TestCase):
     def test_text_with_multiple_witnesses(self):
         # Get a text with 2 or more witnesses
         query = f"""
-        MATCH (t:Text)<-[r:{WitnessIsManifestationOf.edge_label}]-(w:Witness)
+        MATCH (t:Text)<-[r:{IS_MANIFESTATION_OF.label}]-(w:Witness)
         WITH t as text, count(w) as n_wits
         WHERE n_wits > 3
         RETURN text.id
