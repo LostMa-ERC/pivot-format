@@ -1,38 +1,21 @@
-from duckdb import DuckDBPyConnection
-from kuzu import Connection
-
-from app.graph.edges.has_genre import TextHasGenre
-from app.graph.edges.has_language import HasLangauge
-from app.graph.edges.has_parent_genre import GenreHasParent
-from app.graph.edges.has_status import HasStatus
-from app.graph.edges.is_attributed_to import IsAttributedTo
-from app.graph.edges.is_expression_of import TextIsExpressionOf
-from app.graph.edges.is_manifestation_of import WitnessIsManifestationOf
-from app.graph.edges.is_modeled_on import IsModeledOn
-from app.graph.edges.is_part_of_storyverse import IsPartOfStoryverse
-from app.graph.edges.utils.builder import EdgeBuilder
+from .has_genre import HAS_GENRE
+from .has_language import HAS_LANGAUGE
+from .has_parent import HAS_PARENT
+from .has_status import HAS_STATUS
+from .is_attributed_to import IS_ATTRIBUTED_TO
+from .is_expression_of import IS_EXPRESSION_OF
+from .is_manifestation_of import IS_MANIFESTATION_OF
+from .is_modeled_on import IS_MODELED_ON
+from .is_part_of import IS_PART_OF
 
 ALL_EDGES = [
-    IsModeledOn,
-    IsPartOfStoryverse,
-    HasLangauge,
-    TextHasGenre,
-    HasStatus,
-    TextIsExpressionOf,
-    GenreHasParent,
-    HasLangauge,
-    WitnessIsManifestationOf,
-    IsAttributedTo,
+    HAS_GENRE,
+    HAS_LANGAUGE,
+    HAS_PARENT,
+    HAS_STATUS,
+    IS_ATTRIBUTED_TO,
+    IS_EXPRESSION_OF,
+    IS_MANIFESTATION_OF,
+    IS_MODELED_ON,
+    IS_PART_OF,
 ]
-
-
-def create_all_edges(
-    kconn: Connection, dconn: DuckDBPyConnection, edges=ALL_EDGES
-) -> None:
-    builder = EdgeBuilder(kconn=kconn, dconn=dconn)
-    for edge in edges:
-        try:
-            builder(edge=edge)
-        except RuntimeError as e:
-            print(edge)
-            raise e

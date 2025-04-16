@@ -1,65 +1,20 @@
-from app.graph.nodes.utils.node_class import Node
-from app.graph.nodes.utils.property_metadata import PropertyMetadata
+from app.graph import Property, Type
 
-Witness = Node(
-    node_label="Witness",
-    pk="id",
-    node_properties=[
-        PropertyMetadata(
-            property_label="id",
-            duckdb_col="H-ID",
-            property_type="INT",
-        ),
-        PropertyMetadata(
-            property_label="is_unobserved",
-            property_type="BOOLEAN",
-        ),
-        PropertyMetadata(
-            property_label="hypothesis",
-            duckdb_col="claim_freetext",
-            property_type="STRING",
-        ),
-        PropertyMetadata(
-            property_label="siglum",
-            duckdb_col="preferred_siglum",
-            property_type="STRING",
-        ),
-        PropertyMetadata(
-            property_label="alternative_sigla",
-            property_type="STRING[]",
-        ),
-        PropertyMetadata(
-            property_label="status_witness",
-            property_type="STRING",
-        ),
-        PropertyMetadata(
-            property_label="status_note",
-            duckdb_col="status_notes",
-            property_type="STRING",
-        ),
-        PropertyMetadata(
-            property_label="is_excerpt",
-            property_type="BOOLEAN",
-        ),
-        PropertyMetadata(
-            property_label="creation_date",
-            duckdb_col="date_of_creation",
-            is_temporal=True,
-        ),
-        PropertyMetadata(
-            property_label="creation_date_certainty",
-            duckdb_col="date_of_creation_certainty",
-            property_type="STRING",
-        ),
-        PropertyMetadata(
-            property_label="creation_date_freetext",
-            duckdb_col="date_freetext",
-            property_type="STRING",
-        ),
-        PropertyMetadata(
-            property_label="described_at_URL",
-            property_type="STRING[]",
-        ),
-    ],
-    duckdb_table="Witness",
-)
+from .core import Node
+
+WITNESS_PROPS = [
+    Property(name="id", type=Type.int),
+    Property(name="is_unobserved", type=Type.boolean),
+    Property(name="hypothesis", type=Type.string),
+    Property(name="siglum", type=Type.string),
+    Property(name="alternative_sigla", type=Type.string_list),
+    Property(name="status_witness", type=Type.string),
+    Property(name="status_notes", type=Type.string),
+    Property(name="is_excerpt", type=Type.boolean),
+    Property(name="creation_date", type=Type.temporal),
+    Property(name="creation_date_certainty", type=Type.string),
+    Property(name="creation_date_freetext", type=Type.string),
+    Property(name="urls", type=Type.string_list),
+]
+
+Witness = Node(label="Witness", pk="id", properties=WITNESS_PROPS)

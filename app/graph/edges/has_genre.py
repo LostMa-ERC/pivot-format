@@ -1,19 +1,8 @@
-from app.graph.edges.utils.edge_dataclass import Edge
-from app.graph.edges.utils.from_to_relation import FromToEdgeRelation
+from .core import Edge, FromToPair
 
-TextHasGenre = Edge(
-    edge_label="HAS_GENRE",
-    relations=[
-        FromToEdgeRelation(
-            from_node="Text",
-            to_node="Genre",
-            sql_query_for_selecting_data="""
-                SELECT
-                    "H-ID" as "from",
-                    "specific_genre H-ID" as "to"
-                FROM TextTable
-                WHERE "specific_genre H-ID" IS NOT NULL
-            """,
-        )
+HAS_GENRE = Edge(
+    label="HAS_GENRE",
+    from_to_pairs=[
+        FromToPair(from_node="Text", to_node="Genre"),
     ],
 )
