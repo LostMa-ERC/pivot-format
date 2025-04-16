@@ -27,7 +27,7 @@ $ pip install .
 
 ## Basic Usage
 
-_Optional: [Confirm](./docs/configure_project.md) the project's metadata in the [config YAML](./config.yml)._
+_Optional: [Confirm](./docs/configure_project.md) the project's metadata in the [YAML](./config/config.yml) file in the `config/` folder._
 
 Run the full workflow, providing your Heurist username (i.e. `"user.name"`) and password (i.e. `"pass"`) for downloading up-to-date data.
 

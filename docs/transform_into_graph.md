@@ -1,12 +1,12 @@
 # 2. Transform into graph
 
-Because LostMa's data is so networked, a graph is the most intuitive way to structure it for analysis. In preparation for any future work (pivot to TEI documents, explore the network), use the command `lostma build graph` to transform and save the downloaded Heurist data in an embedded, in-process Kùzu graph database.
+Because LostMa's data is so networked, a graph is the most intuitive way to structure it for analysis. In preparation for any future work (pivot to TEI documents, explore the network), use the command `lostma graph` to transform and save the downloaded Heurist data in an embedded, in-process Kùzu graph database.
 
 ```console
-$ lostma build graph
+$ lostma graph
 ```
 
-The graph database's files will be located in the directory indicated in the [`config.yml`](./config.yml) file, specifically the key `graph database`.
+The graph database's files will be located in the directory indicated in the [`YAML`](./config/config.yml) file in the `config/` folder, specifically the key `graph database`.
 
 ```yaml
 file paths:

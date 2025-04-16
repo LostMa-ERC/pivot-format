@@ -1,17 +1,17 @@
 # 1. Download Heurist data
 
-First things first, run the `lostma build heurist` command to download / refresh your downloaded Heurist data.
+First things first, run the `lostma heurist` command to download / refresh your downloaded Heurist data.
 
 Everything about this workflow is local and designed to keep you up to date. So you personally need to have the data files downloaded on your machine. They're not installed with this project.
 
 ```console
-$ lostma build heurist
+$ lostma heurist
 ```
 
 If you don't want to set up a `.env` file, you can still download the Heurist data by passing your username and password as options.
 
 ```console
-$ lostma build heurist --login "user.name" --password "pass"
+$ lostma heurist --login "user.name" --password "pass"
 ```
 
 ---

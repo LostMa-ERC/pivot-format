@@ -7,7 +7,7 @@ DB_LOGIN="user.name"
 DB_PASSWORD=password
 ```
 
-In the [`config.yml`](./config.yml) file, confirm the names of contributors associated with the language corpora of this project.
+In the [`YAML file`](./config/config.yml) in the `config` folder, confirm the names of contributors associated with the language corpora of this project.
 
 ```yaml
 contributors:

@@ -1,9 +1,9 @@
 # 3b. Pivot data to TEI
 
-Run the `lostma pivot` command of this package to select all the texts loaded into the DuckDB database and transform them into TEI-XML documents. The documents will be written in the `output directory` folder you specified in the [`config.yml`](./config.yml) file.
+Run the `lostma tei` command of this package to select all the texts loaded into the DuckDB database and transform them into TEI-XML documents. The documents will be written in the `output directory` folder you specified in the [`YAML file`](./config.yml) in the `config/` folder.
 
 ```console
-$ lostma pivot
+$ lostma tei
 Writing text documents... ━━━━━━━━━━━━━━━━━━━ 0:00:14 517/517
 ```
 
