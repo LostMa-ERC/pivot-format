@@ -4,7 +4,7 @@ import yaml
 
 from base_tei import TEXT_TEI_MODEL
 
-CONFIG_DIR = Path("config").absolute()
+CONFIG_DIR = Path("configs").absolute()
 
 config_file = CONFIG_DIR.joinpath("config.yml")
 with open(config_file, mode="r") as f:
