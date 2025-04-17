@@ -40,7 +40,7 @@ def build_msDesc(
     origDate.text = origDate_data.freetext
 
     # Make the physDesc
-    physDesc = build_physDesc(conn=conn, witness_id=wit_id)
+    physDesc = build_physDesc(conn=conn, parts=parts)
     root.append(physDesc)
 
     return root

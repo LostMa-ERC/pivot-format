@@ -1,3 +1,4 @@
+from .has_description import HAS_DESCRIPTION
 from .has_genre import HAS_GENRE
 from .has_language import HAS_LANGAUGE
 from .has_parent import HAS_PARENT
@@ -26,4 +27,5 @@ ALL_EDGES = [
     IS_OBSERVED_ON,
     LOCATION,
     HAS_SCRIPT,
+    HAS_DESCRIPTION,
 ]

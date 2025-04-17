@@ -4,6 +4,7 @@ from app.graph.nodes.genre import Genre
 from app.graph.nodes.language import Language
 from app.graph.nodes.part import Part
 from app.graph.nodes.person import Person
+from app.graph.nodes.physDesc import PhysDesc
 from app.graph.nodes.place import Place
 from app.graph.nodes.repository import Repository
 from app.graph.nodes.scripta import Scripta
@@ -28,4 +29,5 @@ ALL_NODES = [
     Repository,
     Place,
     Country,
+    PhysDesc,
 ]

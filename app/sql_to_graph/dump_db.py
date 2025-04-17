@@ -25,6 +25,7 @@ NODES = [
     (entities.Repository, nodes.Repository),
     (entities.Place, nodes.Place),
     (entities.Country, nodes.Country),
+    (entities.PhysDesc, nodes.PhysDesc),
 ]
 
 EDGES = [
@@ -41,6 +42,7 @@ EDGES = [
     (relations.IS_OBSERVED_ON, edges.IS_OBSERVED_ON),
     (relations.LOCATION, edges.LOCATION),
     (relations.HAS_SCRIPT, edges.HAS_SCRIPT),
+    (relations.HAS_DESCRIPTION, edges.HAS_DESCRIPTION),
 ]
 
 

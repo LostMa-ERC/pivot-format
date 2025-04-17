@@ -4,6 +4,7 @@ from .genre import Genre
 from .language import Language
 from .part import Part
 from .person import Person
+from .physDesc import PhysDesc
 from .place import Place
 from .repository import Repository
 from .scripta import Scripta
@@ -28,4 +29,5 @@ ALL_ENTITIES = [
     Repository,
     Place,
     Country,
+    PhysDesc,
 ]
