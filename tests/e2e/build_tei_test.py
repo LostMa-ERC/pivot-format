@@ -1,6 +1,6 @@
 import unittest
 
-from app.graph.edges import IS_MANIFESTATION_OF
+from app.graph.edges import HAS_GENRE, HAS_PARENT, IS_ATTRIBUTED_TO, IS_MANIFESTATION_OF
 from app.tei.text_builder import TextDocument
 from tests import GraphDepTest
 
@@ -9,8 +9,8 @@ class TEITest(GraphDepTest):
 
     def test_text_with_author(self):
         # Get a text with 1 or more authors, who have a reference URL
-        query = """
-        MATCH (t:Text)-[r:IS_ATTRIBUTED_TO]->(p:Person)
+        query = f"""
+        MATCH (t:Text)-[r:{IS_ATTRIBUTED_TO.label}]->(p:Person)
         WHERE p.urls <> []
         RETURN t.id
         """
@@ -25,8 +25,8 @@ class TEITest(GraphDepTest):
 
     def test_text_with_nested_genres(self):
         # Get a text with 2 or more genres
-        query = """
-        MATCH (t:Text)-[r:HAS_GENRE|HAS_PARENT *2..]->(g:Genre)
+        query = f"""
+        MATCH (t:Text)-[r:{HAS_GENRE.label}|{HAS_PARENT.label} *2..]->(g:Genre)
         RETURN t.id
         """
         response = self.conn.execute(query)

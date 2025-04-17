@@ -1,14 +1,8 @@
-from pydantic import BaseModel, computed_field
+from .document import DocumentModel
+from .msDesc_and_msParts import yield_from_witness_parts_aggregated_by_doc
+from .part import PartModel
 
+DocumentModel
+PartModel
 
-def make_xml_id(id: int) -> str:
-    return f"witness_{id}"
-
-
-class WitnessModel(BaseModel):
-    id: int
-
-    @computed_field
-    @property
-    def xml_id(self) -> str:
-        return make_xml_id(id=self.id)
+yield_from_witness_parts_aggregated_by_doc
