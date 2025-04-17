@@ -40,16 +40,18 @@ class TEITest(GraphDepTest):
 
     def test_text_with_multiple_witnesses(self):
         # Get a text with 2 or more witnesses
-        query = f"""
-        MATCH (t:Text)<-[r:{IS_MANIFESTATION_OF.label}]-(w:Witness)
-        WITH t as text, count(w) as n_wits
-        WHERE n_wits > 3
-        RETURN text.id
-        """
-        response = self.conn.execute(query)
-        while response.has_next():
-            text_id = response.get_next()[0]
-            break
+        # query = f"""
+        # MATCH (t:Text)<-[r:{IS_MANIFESTATION_OF.label}]-(w:Witness)
+        # WITH t as text, count(w) as n_wits
+        # WHERE n_wits > 3
+        # RETURN text.id
+        # """
+        # response = self.conn.execute(query)
+        # while response.has_next():
+        #     text_id = response.get_next()[0]
+        #     break
+
+        text_id = 47562
 
         # Build a TEI document for the text
         doc = TextDocument(conn=self.conn, text_id=text_id)

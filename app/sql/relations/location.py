@@ -7,7 +7,7 @@ LOCATION = Relation(
             query="""
 SELECT
     "H-ID" as "from",
-    "location H-ID" as "to"
+    cast("location H-ID" as INT64) as "to"
 FROM DocumentTable
 WHERE "location H-ID" is not null
 """,

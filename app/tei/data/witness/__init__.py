@@ -1,8 +1,5 @@
 from .document import DocumentModel
-from .msDesc_and_msParts import yield_from_witness_parts_aggregated_by_doc
 from .part import PartModel
 
 DocumentModel
 PartModel
-
-yield_from_witness_parts_aggregated_by_doc

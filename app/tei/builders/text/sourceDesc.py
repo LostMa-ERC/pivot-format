@@ -12,7 +12,7 @@ from app.tei.data.text import (
     fetch_title,
     fetch_witnesess_of_a_text,
 )
-from app.tei.data.witness import yield_from_witness_parts_aggregated_by_doc
+from app.tei.data.witness.part import list_parts_aggregated_by_doc
 
 # XML parser for the sourceDesc branch
 from app.tei.parsers.fileDesc import SourceDescXML
@@ -49,9 +49,6 @@ def build_sourceDesc(conn: Connection, text_id: int, root: SourceDescXML) -> Non
         xml_id = f"witness_{id}"
         node = etree.SubElement(root.listWit, "witness")
         node.set(XML_ID, xml_id)
-        for ms, parts in yield_from_witness_parts_aggregated_by_doc(
-            conn=conn,
-            witness_id=id,
-        ):
-            msDesc = build_msDesc(conn=conn, wit_id=id, ms=ms, parts=parts)
+        for parts in list_parts_aggregated_by_doc(conn=conn, witness_id=id):
+            msDesc = build_msDesc(conn=conn, wit_id=id, parts=parts)
             node.append(msDesc)

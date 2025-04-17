@@ -40,6 +40,7 @@ EDGES = [
     (relations.IS_INSCRIBED_ON, edges.IS_INSCRIBED_ON),
     (relations.IS_OBSERVED_ON, edges.IS_OBSERVED_ON),
     (relations.LOCATION, edges.LOCATION),
+    (relations.HAS_SCRIPT, edges.HAS_SCRIPT),
 ]
 
 

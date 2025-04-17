@@ -5,7 +5,7 @@ from pydantic import BaseModel, Field, computed_field
 
 
 class WitnessOrigin(BaseModel):
-    freetext: str
+    freetext: str | None = Field(default="")
     cert_heurist: str | None = Field(default=None)
     cert_lostma: str | None = Field(default=None)
     estMinDate: date | None = Field(default=None)

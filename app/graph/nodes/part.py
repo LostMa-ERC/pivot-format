@@ -11,6 +11,7 @@ PART_PROPS = [
     Property(name="number_of_lines", type=Type.int),
     Property(name="verses_per_line", type=Type.string),
     Property(name="lines_are_incomplete", type=Type.boolean),
+    Property(name="page_ranges", type=Type.string_list),
 ]
 
 Part = Node(label="Part", pk="id", properties=PART_PROPS)

@@ -4,7 +4,7 @@ Place = Entity(
     alias="Place",
     properties=[
         Property(column="H-ID", alias="id"),
-        Property(column="place_name"),
+        Property(column="place_name", alias="name"),
         Property(column="administrative_region"),
         Property(column="country"),
         Property(column="place_type"),

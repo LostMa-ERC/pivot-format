@@ -1,6 +1,7 @@
 from .has_genre import HAS_GENRE
 from .has_language import HAS_LANGUAGE
 from .has_parent import HAS_PARENT
+from .has_script import HAS_SCRIPT
 from .has_status import HAS_STATUS
 from .is_attributed_to import IS_ATTRIBUTED_TO
 from .is_expression_of import IS_EXPRESSION_OF
@@ -24,4 +25,5 @@ ALL_RELATIONS = [
     IS_INSCRIBED_ON,
     IS_OBSERVED_ON,
     LOCATION,
+    HAS_SCRIPT,
 ]

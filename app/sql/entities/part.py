@@ -11,5 +11,6 @@ Part = Entity(
         Property(column="number_of_lines"),
         Property(column="verses_per_line"),
         Property(column="lines_are_incomplete", method=SQLTransformer.boolean),
+        Property(column="page_ranges"),
     ],
 )
