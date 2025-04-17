@@ -22,6 +22,9 @@ NODES = [
     (entities.Scripta, nodes.Scripta),
     (entities.Part, nodes.Part),
     (entities.Document, nodes.Document),
+    (entities.Repository, nodes.Repository),
+    (entities.Place, nodes.Place),
+    (entities.Country, nodes.Country),
 ]
 
 EDGES = [
@@ -36,6 +39,7 @@ EDGES = [
     (relations.IS_PART_OF, edges.IS_PART_OF),
     (relations.IS_INSCRIBED_ON, edges.IS_INSCRIBED_ON),
     (relations.IS_OBSERVED_ON, edges.IS_OBSERVED_ON),
+    (relations.LOCATION, edges.LOCATION),
 ]
 
 

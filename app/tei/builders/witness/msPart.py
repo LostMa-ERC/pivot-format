@@ -11,4 +11,6 @@ def build_msPart(conn: Connection, part: PartModel) -> etree.Element:
     # Make the msPart root
     root = etree.Element("msPart")
 
+    # Make msIdentifier
+
     return root
