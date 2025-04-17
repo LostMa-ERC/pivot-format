@@ -1,8 +1,11 @@
+from .country import Country
 from .document import Document
 from .genre import Genre
 from .language import Language
 from .part import Part
 from .person import Person
+from .place import Place
+from .repository import Repository
 from .scripta import Scripta
 from .story import Story
 from .storyverse import Storyverse
@@ -22,4 +25,7 @@ ALL_ENTITIES = [
     Scripta,
     Part,
     Document,
+    Repository,
+    Place,
+    Country,
 ]
