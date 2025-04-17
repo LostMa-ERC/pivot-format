@@ -13,6 +13,8 @@ from app.tei.data.text import (
     fetch_witnesess_of_a_text,
 )
 from app.tei.data.witness.part import list_parts_aggregated_by_doc
+from app.tei.data.witness.refs import fetch_witness_refs
+from app.tei.data.witness.siglum import fetch_witness_siglum
 
 # XML parser for the sourceDesc branch
 from app.tei.parsers.fileDesc import SourceDescXML
@@ -47,8 +49,20 @@ def build_sourceDesc(conn: Connection, text_id: int, root: SourceDescXML) -> Non
     witness_ids = fetch_witnesess_of_a_text(conn=conn, text_id=text_id)
     for id in witness_ids:
         xml_id = f"witness_{id}"
-        node = etree.SubElement(root.listWit, "witness")
-        node.set(XML_ID, xml_id)
+        witness = etree.SubElement(root.listWit, "witness")
+        witness.set(XML_ID, xml_id)
+
+        # Fetch the siglum and add it
+        siglum = fetch_witness_siglum(conn=conn, id=id)
+
+        # Add abbreviation (siglum) to witness
+        abbr = etree.SubElement(witness, "abbr", type="siglum")
+        abbr.text = siglum
+
+        # Add semantic references to witness
+        for url in fetch_witness_refs(conn=conn, id=id):
+            etree.SubElement(witness, "ref", target=url)
+
         for parts in list_parts_aggregated_by_doc(conn=conn, witness_id=id):
-            msDesc = build_msDesc(conn=conn, wit_id=id, parts=parts)
-            node.append(msDesc)
+            msDesc = build_msDesc(conn=conn, wit_id=id, parts=parts, siglum=siglum)
+            witness.append(msDesc)

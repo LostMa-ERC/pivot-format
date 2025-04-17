@@ -8,13 +8,14 @@ from app.tei.builders.witness.physDesc import build_physDesc
 # Data models and fetchers
 from app.tei.data.witness.origin import fetch_witness_origin_date
 from app.tei.data.witness.part import PartModel
-from app.tei.data.witness.refs import fetch_witness_refs
-from app.tei.data.witness.siglum import fetch_witness_siglum
 from app.tei.data.witness.status import fetch_witness_status, is_witness_hypothetical
 
 
 def build_msDesc(
-    conn: Connection, wit_id: int, parts: list[PartModel]
+    conn: Connection,
+    wit_id: int,
+    parts: list[PartModel],
+    siglum: str,
 ) -> etree.Element:
     # Make the msDesc root
     root = etree.Element("msDesc")
@@ -29,13 +30,8 @@ def build_msDesc(
 
     # Build the msIdentifier of the witness's theoretical document
     msIdentifier = etree.SubElement(root, "msIdentifier")
-    siglum = fetch_witness_siglum(conn=conn, id=wit_id)
     msName = etree.SubElement(msIdentifier, "msName")
     msName.text = f"Historical document of witness {siglum}".strip()
-    abbr = etree.SubElement(msIdentifier, "abbr", type="siglum")
-    abbr.text = siglum
-    for url in fetch_witness_refs(conn=conn, id=wit_id):
-        etree.SubElement(msIdentifier, "ref", target=url)
 
     # Build each part
     for part in parts:
@@ -47,7 +43,7 @@ def build_msDesc(
     origin = etree.SubElement(history, "origin")
     origDate_data = fetch_witness_origin_date(conn=conn, witness_id=wit_id)
     origDate = etree.SubElement(origin, "origDate", origDate_data.attribs)
-    origDate.text = origDate_data.freetext
+    origDate.text = origDate_data.date_freetext
 
     # Make the physDesc
     physDesc = build_physDesc(conn=conn, parts=parts)

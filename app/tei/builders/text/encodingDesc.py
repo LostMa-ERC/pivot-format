@@ -19,20 +19,20 @@ def make_genre_category(parent: etree.Element, genre: GenreModel) -> etree.Eleme
 
     # Add a catDesc into the category
     catDesc = etree.SubElement(category, "catDesc")
-    catDesc.text = genre.name
 
-    # Add a desc into the category
-    desc = etree.SubElement(category, "desc")
-    desc.text = genre.description
+    main_name = etree.SubElement(catDesc, "name", type="main")
+    main_name.text = genre.name
 
-    # If the genre has alternative names, add them into the desc
     for name in genre.alternative_names:
-        n = etree.SubElement(desc, "name", type="alt")
+        n = etree.SubElement(catDesc, "name", type="alt")
         n.text = name
+
+    desc = etree.SubElement(catDesc, "gloss")
+    desc.text = genre.description
 
     # If the genre has URL references, create a bibl and add them as ptr nodes
     if len(genre.described_at_URL) > 1:
-        bibl = etree.SubElement(desc, "bibl")
+        bibl = etree.SubElement(catDesc, "bibl")
         for url in genre.described_at_URL:
             _ = etree.SubElement(bibl, "ptr", target=url)
 
@@ -47,14 +47,15 @@ def make_status_category(parent: etree.Element, status: StatusModel) -> etree.El
 
     # Add a catDesc into the category
     catDesc = etree.SubElement(category, "catDesc")
-    catDesc.text = status.name
 
-    # Add a desc into the category
-    desc = etree.SubElement(category, "desc")
+    main_name = etree.SubElement(catDesc, "name", type="main")
+    main_name.text = status.name
+
+    desc = etree.SubElement(catDesc, "gloss")
     desc.text = status.description
 
     if status.url and len(status.url) > 1:
-        bibl = etree.SubElement(desc, "bibl")
+        bibl = etree.SubElement(catDesc, "bibl")
         for url in status.url:
             _ = etree.SubElement(bibl, "ptr", target=url)
 

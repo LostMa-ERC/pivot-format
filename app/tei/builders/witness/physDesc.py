@@ -1,7 +1,6 @@
 from kuzu import Connection
 from lxml import etree
 
-from app.tei.constants import XML_ID
 from app.tei.data.witness.part import PartModel
 from app.tei.data.witness.physDesc import PhysDescModel, fetch_physDesc
 
@@ -20,7 +19,7 @@ def build_physDesc(conn: Connection, parts: list[PartModel]) -> etree.Element:
 
     try:
         # Add metadata to the physDesc element
-        root.set(XML_ID, data.xml_id)
+        root.set("corresp", f"#{data.xml_id}")
         objectDesc = etree.SubElement(root, "objectDesc", form=data.form)
         supportDesc = etree.SubElement(
             objectDesc, "supportDesc", material=data.material
@@ -34,27 +33,38 @@ def build_physDesc(conn: Connection, parts: list[PartModel]) -> etree.Element:
             unit="millimeters",
             type="written",
         )
-        height = etree.SubElement(
-            dimensions,
-            "height",
-            quantity=data.folio_size_height or "",
-        )
+
+        # Dimensions -- height
+        height = etree.SubElement(dimensions, "height")
+        try:
+            int(data.folio_size_height)
+            height.set("quantity", data.folio_size_height)
+        except Exception:
+            pass
         height.text = data.folio_size_height
-        width = etree.SubElement(
-            dimensions,
-            "width",
-            quantity=data.folio_size_width or "",
-        )
+
+        # Dimensions -- width
+        width = etree.SubElement(dimensions, "width")
+        try:
+            int(data.folio_size_width)
+            width.set("quantity", data.folio_size_width)
+        except Exception:
+            pass
         width.text = data.folio_size_width
 
         # Layout
-        layoutDesc = etree.SubElement(root, "layoutDesc")
-        layout = etree.SubElement(
-            layoutDesc,
-            "layout",
-            columns=data.number_of_columns or "",
-            writtenLines=data.number_of_lines_in_writing_area or "",
-        )
+        layoutDesc = etree.SubElement(objectDesc, "layoutDesc")
+        layout = etree.SubElement(layoutDesc, "layout")
+        try:
+            int(data.number_of_columns)
+            layout.set("columns", data.number_of_columns)
+        except Exception:
+            pass
+        try:
+            int(data.number_of_lines_in_writing_area)
+            layout.set("writtenLines", data.number_of_lines_in_writing_area)
+        except Exception:
+            pass
         if data.above_top_line and data.above_top_line != "unknown":
             layout.set("topLine", data.above_top_line)
 
@@ -67,7 +77,7 @@ def build_physDesc(conn: Connection, parts: list[PartModel]) -> etree.Element:
 
         # Illustrations
         decoDesc = etree.SubElement(root, "decoDesc")
-        note = etree.SubElement(decoDesc, "decNote", type="illustration")
+        note = etree.SubElement(decoDesc, "decoNote", type="illustration")
         etree.SubElement(note, "measure", quantity=data.amount_of_illustrations)
         # Decorations
         for dec in data.has_decorations:

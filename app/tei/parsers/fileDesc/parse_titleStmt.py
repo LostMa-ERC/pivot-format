@@ -10,11 +10,11 @@ class TitleStmtXML:
         self.tree = tree
 
     @property
-    def title(self) -> etree.Element:
-        xpath = ".//tei:titleStmt/tei:title"
+    def root(self) -> etree.Element:
+        xpath = ".//tei:titleStmt"
         return find_node(tree=self.tree, xpath=xpath)
 
     @property
-    def respStmt(self) -> etree.Element:
-        xpath = ".//tei:titleStmt/tei:respStmt"
+    def title(self) -> etree.Element:
+        xpath = ".//tei:titleStmt/tei:title"
         return find_node(tree=self.tree, xpath=xpath)

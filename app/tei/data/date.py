@@ -1,5 +1,6 @@
-from typing import Optional
 from datetime import date
+from typing import Optional
+
 from pydantic import BaseModel, Field, computed_field
 
 
@@ -16,20 +17,50 @@ class DateModel(BaseModel):
     cert_freetext: Optional[str] = Field(default=None)
 
     @computed_field
+    def attribs(self) -> dict:
+        if self.timestamp_year:
+            return {
+                "when": str(self.timestamp_year),
+                "type": "circa",
+                "cert": self.cert,
+            }
+        elif self.est_min and self.est_max:
+            return {
+                "notBefore": str(self.est_min),
+                "notAfter": str(self.est_max),
+                "cert": self.cert,
+            }
+        else:
+            return {}
+
+    @computed_field
     @property
     def cert(self) -> str:
         if self.est_cert:
-            return self.est_cert
+            cert = self.est_cert
+            # 0=>"Unknown",
+            # 1=>"Attested",
+            # 2=>"Conjecture",
+            # 3=>"Measurement"
+            if cert.lower() == "attested":
+                return "low"
+            elif cert.lower() == "conjecture":
+                return "medium"
+            elif cert.lower() == "measurement":
+                return "high"
+            else:
+                return "unknown"
+
         elif self.cert_freetext and "probable" in self.cert_freetext.lower():
-            return "probable"
+            return "medium"
         elif self.cert_freetext and "unlikely" in self.cert_freetext.lower():
-            return "unlikely"
+            return "low"
         elif self.cert_freetext and "very likely" in self.cert_freetext.lower():
-            return "veryLikely"
+            return "high"
         elif self.cert_freetext and "certain" in self.cert_freetext.lower():
-            return "certain"
+            return "high"
         else:
-            return ""
+            return "unknown"
 
     @computed_field
     @property

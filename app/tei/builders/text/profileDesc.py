@@ -30,7 +30,7 @@ def build_profileDesc(conn: Connection, text_id: int, root: ProfileDescXML) -> N
     data = fetch_language(conn=conn, id=text_id)
     attrs = {}
     if data:
-        attrs = {"ident": data.code, "ref": data.url or "", XML_ID: data.xml_id}
+        attrs = {"ident": data.code, "corresp": data.url or "", XML_ID: data.xml_id}
     node = etree.SubElement(root.langUsage, "language", attrib=attrs)
     node.text = data.description
 

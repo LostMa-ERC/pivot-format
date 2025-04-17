@@ -8,7 +8,6 @@
             <title/>
             <funder>European Research Council</funder>
             <principal>Jean-Baptiste Camps</principal>
-            <respStmt/>
          </titleStmt>
          <publicationStmt>
             <publisher>LostMa ERC Project</publisher>
@@ -28,7 +27,7 @@
       <encodingDesc>
          <classDecl>
             <taxonomy>
-               <category xml:id="form" ref="https://www.wikidata.org/wiki/Q4263830">
+               <category xml:id="form" corresp="https://www.wikidata.org/wiki/Q4263830">
                   <catDesc>Form</catDesc>
                   <category xml:id="verseForm">
                      <catDesc>verse</catDesc>
@@ -46,7 +45,7 @@
                <category xml:id="traditionStatus">
                   <catDesc>Tradition status</catDesc>
                </category>
-               <category xml:id="genre" ref="https://www.wikidata.org/wiki/Q483394">
+               <category xml:id="genre" corresp="https://www.wikidata.org/wiki/Q483394">
                   <catDesc>Genre</catDesc>
                </category>
             </taxonomy>

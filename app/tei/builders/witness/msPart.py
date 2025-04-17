@@ -41,7 +41,19 @@ def build_msPart(conn: Connection, part: PartModel, wit_id: int) -> etree.Elemen
     scripta = fetch_witness_scripta(conn=conn, id=wit_id)
     if scripta:
         textLang.set("mainLang", scripta.code)
-        textLang.set("ref", f"#{scripta.xml_id}")
+        textLang.set("corresp", f"#{scripta.xml_id}")
         textLang.text = scripta.description
+
+    # ADDITIONAL INFORMATION
+    additional = etree.SubElement(root, "additional")
+
+    # Information on digitizations for the part's document
+    _ = etree.SubElement(additional, "surrogates")
+
+    # Bibliographic information about the part's document
+    listBibl = etree.SubElement(additional, "listBibl")
+    bibl = etree.SubElement(listBibl, "bibl")
+    for url in document_data.document.urls:
+        etree.SubElement(bibl, "ref", target=url)
 
     return root
