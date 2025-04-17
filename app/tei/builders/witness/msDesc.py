@@ -1,16 +1,16 @@
 from kuzu import Connection
 from lxml import etree
 
-# Builder for nested entity
+# Builders
 from app.tei.builders.witness.msPart import build_msPart
 from app.tei.builders.witness.physDesc import build_physDesc
 
-# Data modelers
+# Data models and fetchers
 from app.tei.data.witness.origin import fetch_witness_origin_date
 from app.tei.data.witness.part import PartModel
-
-# Fetch data needed for the msDesc
+from app.tei.data.witness.refs import fetch_witness_refs
 from app.tei.data.witness.siglum import fetch_witness_siglum
+from app.tei.data.witness.status import fetch_witness_status, is_witness_hypothetical
 
 
 def build_msDesc(
@@ -18,6 +18,14 @@ def build_msDesc(
 ) -> etree.Element:
     # Make the msDesc root
     root = etree.Element("msDesc")
+    if is_witness_hypothetical(conn=conn, id=wit_id):
+        root.set("status", "hypothetical")
+    else:
+        status = fetch_witness_status(conn=conn, id=wit_id)
+        root.set("status", status.status)
+        if status.note:
+            note = etree.SubElement(root, "note")
+            note.text = status.note
 
     # Build the msIdentifier of the witness's theoretical document
     msIdentifier = etree.SubElement(root, "msIdentifier")
@@ -26,6 +34,8 @@ def build_msDesc(
     msName.text = f"Historical document of witness {siglum}".strip()
     abbr = etree.SubElement(msIdentifier, "abbr", type="siglum")
     abbr.text = siglum
+    for url in fetch_witness_refs(conn=conn, id=wit_id):
+        etree.SubElement(msIdentifier, "ref", target=url)
 
     # Build each part
     for part in parts:

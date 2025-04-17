@@ -28,5 +28,7 @@ def make_msDesc_msIdentifier(document_data: CompiledDocumentModel) -> etree.Elem
         settlement.text = document_data.place.name
         repository.set("ref", f"#{document_data.repository.xml_id}")
         repository.text = document_data.repository.name
+    for url in document_data.document.urls:
+        etree.SubElement(msIdentifier, "ref", target=url)
 
     return msIdentifier
