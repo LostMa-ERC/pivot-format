@@ -9,6 +9,7 @@ from .is_manifestation_of import IS_MANIFESTATION_OF
 from .is_modeled_on import IS_MODELED_ON
 from .is_observed_on import IS_OBSERVED_ON
 from .is_part_of import IS_PART_OF
+from .location import LOCATION
 
 ALL_EDGES = [
     HAS_GENRE,
@@ -22,4 +23,5 @@ ALL_EDGES = [
     IS_PART_OF,
     IS_INSCRIBED_ON,
     IS_OBSERVED_ON,
+    LOCATION,
 ]

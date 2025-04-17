@@ -1,8 +1,11 @@
+from app.graph.nodes.country import Country
 from app.graph.nodes.document import Document
 from app.graph.nodes.genre import Genre
 from app.graph.nodes.language import Language
 from app.graph.nodes.part import Part
 from app.graph.nodes.person import Person
+from app.graph.nodes.place import Place
+from app.graph.nodes.repository import Repository
 from app.graph.nodes.scripta import Scripta
 from app.graph.nodes.story import Story
 from app.graph.nodes.storyverse import Storyverse
@@ -22,4 +25,7 @@ ALL_NODES = [
     Scripta,
     Part,
     Document,
+    Repository,
+    Place,
+    Country,
 ]
