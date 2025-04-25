@@ -182,3 +182,4 @@ uninstall.txt
 *.xml
 *.parquet
 *.json
+neo4j

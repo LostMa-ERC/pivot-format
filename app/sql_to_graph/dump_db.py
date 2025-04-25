@@ -9,6 +9,7 @@ from app.graph import edges, nodes
 from app.sql import entities, relations
 
 from .constants import CYPHER_CONFIG_FILENAME
+from .utils import serialize_json
 
 NODES = [
     (entities.Genre, nodes.Genre),
@@ -75,14 +76,25 @@ def dump_relational_database_to_config(
             raise e
         rel.write_parquet(fp)
 
+        dict_rows = rel.pl().to_dicts()
+        json_safe_data = serialize_json(dict_rows)
+
         # Save the node's cypher queries in the config
         config["nodes"].append(
             {
                 "label": graph_node.label,
                 "cypher": {
-                    "create": graph_node.create_table_stmt(),
-                    "copy": f"COPY {graph_node.label} FROM '{fp}';",
+                    "kuzu": {
+                        "create": graph_node.kuzu_create_table_stmt,
+                        "copy": f"COPY {graph_node.label} FROM '{fp}';",
+                    },
+                    "neo4j": {
+                        "create_constraint": graph_node.neo4j_node_constraint,
+                        "constraint_label": graph_node.pk_constraint_label,
+                        "create_nodes": graph_node.neo4j_create_multiple_nodes_stmt,
+                    },
                 },
+                "items": {"data": json_safe_data},
             }
         )
 
@@ -122,6 +134,6 @@ def dump_relational_database_to_config(
 
     config_fp = output_dir.joinpath(CYPHER_CONFIG_FILENAME)
     with open(config_fp, "w") as f:
-        json.dump(config, f, indent=4)
+        json.dump(config, f, indent=4, ensure_ascii=False)
 
     return config

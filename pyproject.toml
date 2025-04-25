@@ -7,6 +7,7 @@ name = "lostma-tei"
 dependencies = [
     "lxml>=5.3.1",
     "heurist @ git+ssh://git@github.com/LostMa-ERC/heurist-etl-pipeline",
+    "neo4j>=5.28.1",
     "pyyaml>=6.0.2",
     "kuzu>=0.8.2",
     "networkx>=3.4.2",
