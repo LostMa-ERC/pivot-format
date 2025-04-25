@@ -3,7 +3,7 @@ from kuzu import Connection
 
 def create_kuzu_database_from_config(config: dict, conn: Connection) -> None:
     for node in config["nodes"]:
-        queries = node["cypher"]
+        queries = node["cypher"]["kuzu"]
         conn.execute(query=queries["create"])
         conn.execute(query=queries["copy"])
     for edge in config["edges"]:
