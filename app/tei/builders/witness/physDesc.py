@@ -9,8 +9,18 @@ def build_physDesc(conn: Connection, parts: list[PartModel]) -> etree.Element:
     root = etree.Element("physDesc")
 
     # Get the relevant physdesc
-    descriptions = [fetch_physDesc(conn=conn, part_id=p.id) for p in parts]
-    if descriptions == [None]:
+    descriptions = [
+        d
+        for d in [
+            fetch_physDesc(
+                conn=conn,
+                part_id=p.id,
+            )
+            for p in parts
+        ]
+        if d
+    ]
+    if len(descriptions) == 0:
         return root
     unique_data = {d.id: d for d in descriptions}
     assert len(unique_data.keys()) == 1
@@ -78,7 +88,11 @@ def build_physDesc(conn: Connection, parts: list[PartModel]) -> etree.Element:
         # Illustrations
         decoDesc = etree.SubElement(root, "decoDesc")
         note = etree.SubElement(decoDesc, "decoNote", type="illustration")
-        etree.SubElement(note, "measure", quantity=data.amount_of_illustrations)
+        etree.SubElement(
+            note,
+            "measure",
+            quantity=data.amount_of_illustrations,
+        )
         # Decorations
         for dec in data.has_decorations:
             etree.SubElement(decoDesc, "decoNote", type=dec)
